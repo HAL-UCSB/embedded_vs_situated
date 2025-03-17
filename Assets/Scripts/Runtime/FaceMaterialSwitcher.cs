@@ -39,5 +39,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 GetComponent<MeshRenderer>().material = mat;
             }
         }
+
     }
 }

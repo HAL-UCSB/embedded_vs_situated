@@ -146,9 +146,12 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   - {fileID: -6122771651556369562, guid: e2f869774b12e400996eb546603602e3, type: 2}
-  - {fileID: -6566858837959130689, guid: 2d2dec64879445247bb34603b4469c6c, type: 2}
+  - {fileID: -2470385514627339397, guid: 07124a6b2286348128e5aecd8a4b3b80, type: 2}
   - {fileID: 11400000, guid: 302e9f36808117f4184b07b05ca5bb47, type: 2}
+  - {fileID: 4800000, guid: c9f956787b1d945e7b36e0516201fc76, type: 3}
+  - {fileID: 4800000, guid: 0945859e5a1034c2cb6dce53cb4fb899, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -816,12 +819,12 @@ PlayerSettings:
   webGLMemoryLinearGrowthStep: 16
   webGLMemoryGeometricGrowthStep: 0.2
   webGLMemoryGeometricGrowthCap: 96
+  webGLEnableWebGPU: 0
   webGLPowerPreference: 2
   webGLWebAssemblyTable: 0
   webGLWebAssemblyBigInt: 0
   webGLCloseOnQuit: 0
   webWasm2023: 0
-  webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
     : UNITY_POST_PROCESSING_STACK_V2
     Android: UNITY_POST_PROCESSING_STACK_V2;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS
@@ -960,4 +963,3 @@ PlayerSettings:
   insecureHttpOption: 0
   androidVulkanDenyFilterList: []
   androidVulkanAllowFilterList: []
-  androidVulkanDeviceFilterListAsset: {fileID: 0}
