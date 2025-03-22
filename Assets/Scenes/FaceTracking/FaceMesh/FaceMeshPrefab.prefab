@@ -155,6 +155,21 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0090737547b6d3d4ba4818301b64eda7, type: 2}
   - {fileID: 2100000, guid: 90f5d90ec992f4983aea366642a31d25, type: 2}
   - {fileID: 2100000, guid: fb45f34a10a414be185d625e8b6861e3, type: 2}
+  - {fileID: 2100000, guid: 85dd4974e1b7c488e8ef71f1f4aecbbe, type: 2}
+  - {fileID: 2100000, guid: f28b3aa036d2244fe918138556fa38d3, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
+  - {fileID: 2100000, guid: 3d9e7d215c81b45348f362eb379c1b70, type: 2}
 --- !u!64 &9020561591574992391
 MeshCollider:
   m_ObjectHideFlags: 0

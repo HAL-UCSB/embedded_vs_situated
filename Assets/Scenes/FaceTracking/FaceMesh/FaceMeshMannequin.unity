@@ -703,11 +703,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_CustomMaterial
       value: 
-      objectReference: {fileID: 10756, guid: 0000000000000000e000000000000000, type: 0}
+      objectReference: {fileID: 2100000, guid: 208182e155a4b40deb1848646851225d, type: 2}
     - target: {fileID: 6975486038996686889, guid: 8f2c1ffdafd49a943ac79dc0ff480220,
         type: 3}
       propertyPath: m_UseCustomMaterial
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7043833920548368154, guid: 8f2c1ffdafd49a943ac79dc0ff480220,
         type: 3}

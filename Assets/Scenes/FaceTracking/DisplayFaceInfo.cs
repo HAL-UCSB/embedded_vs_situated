@@ -1,8 +1,8 @@
 using System.Text;
 using Unity.Collections;
+using Unity.XR.CoreUtils;
 using UnityEngine.UI;
 using UnityEngine.XR.ARSubsystems;
-using Unity.XR.CoreUtils;
 
 namespace UnityEngine.XR.ARFoundation.Samples
 {
@@ -124,9 +124,18 @@ namespace UnityEngine.XR.ARFoundation.Samples
             {
                 if (face.trackingState == TrackingState.Tracking)
                 {
-                    m_FaceControlledObject.transform.rotation = face.transform.rotation;
+                    // m_FaceControlledObject.transform.rotation = face.transform.rotation;
+                    var currRotation = face.transform.rotation.eulerAngles;
+                    currRotation.x = 0;
+                    currRotation.z = 0;
+                    currRotation.y += 180.0f;
+                    m_FaceControlledObject.transform.rotation = Quaternion.Euler(currRotation);
                     var camera = m_CameraManager.GetComponent<Camera>();
                     m_FaceControlledObject.transform.position = camera.transform.position + camera.transform.forward * 0.5f;
+                    // m_FaceControlledObject.transform.position = face.gameObject.transform.position; // camera.transform.position + camera.transform.forward * 0.5f;
+                    // m_FaceControlledObject.transform.position = face.pose.position; // camera.transform.position + camera.transform.forward * 0.5f;
+                    // var nosePosition = face.transform.TransformPoint(face.vertices[0]); // camera.transform.position + camera.transform.forward * 0.5f;
+                    // m_FaceControlledObject.transform.position = nosePosition;
                 }
             }
         }
@@ -169,7 +178,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             if (m_FaceControlledObject)
             {
-                m_FaceControlledObject.gameObject.SetActive(m_CameraManager.currentFacingDirection == CameraFacingDirection.World);
+                // m_FaceControlledObject.gameObject.SetActive(m_CameraManager.currentFacingDirection == CameraFacingDirection.World);
+                m_FaceControlledObject.gameObject.SetActive(m_CameraManager.currentFacingDirection == CameraFacingDirection.User);
+                m_Info.Append($"Face Controlled Object {m_FaceControlledObject.gameObject.activeSelf}: {m_FaceControlledObject.transform.position}\n");
+                m_Info.Append($"Rotation {m_FaceControlledObject.transform.rotation}\n");
             }
 
             if (m_NotSupportedElement)
@@ -180,6 +192,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
             if (m_FaceInfoText)
             {
                 m_FaceInfoText.text = m_Info.ToString();
+            }
+            else
+            {
+                Debug.Log("Face Info Text is null");
             }
         }
     }
