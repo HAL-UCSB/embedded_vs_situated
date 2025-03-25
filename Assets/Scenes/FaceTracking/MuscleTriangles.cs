@@ -1,5 +1,7 @@
 
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine.Rendering;
 
 namespace UnityEngine.XR.ARFoundation.Samples
 {
@@ -289,13 +291,73 @@ namespace UnityEngine.XR.ARFoundation.Samples
             397, 367, 435,
             397, 435, 288
         };
+        public static int[] DepressorAnguliRight = new int[] {
+            212,  57,  43,
+            212,  43, 202,
+            150, 212, 202,
+            211, 202,  43,
+            149, 211, 176,
+            210, 212, 202,
+            210, 202, 211,
+            170, 210, 211,
+            169, 210, 170,
+            149, 169, 170,
+            150, 169, 149
+        };
         //   [57, 212, 214, 150, 149, 176, 170, 57], // 16 Depressor anguli oris
-        //   [182, 170, 57, 43, 106, 182], // 17 Depressor labii inferioris
+        //   [287, 432, 434, 379, 378, 400, 395, 287], // 16
+
+        public static int[] DepressorAnguliLeft = new int[] {
+            273, 287, 432,
+            273, 432, 422,
+            431, 273, 422,
+            400, 431, 378,
+            379, 430, 432,
+            422, 432, 430,
+            431, 422, 430,
+            395, 431, 430,
+            395, 430, 294,
+            378, 395, 394,
+            378, 394, 379
+        };
+
+        public static int[] MentalisRight = new int[] {
+            201,  83, 182,
+            201, 182, 194,
+            208, 201,  32,
+             32, 201, 194,
+            171, 208, 140,
+            140, 208,  32,
+            148, 171, 176,
+            176, 171, 140,
+            176,  32, 211,
+             32, 182, 211
+        };
+
+        public static int[] MentalisLeft = new int[] {
+            421, 313, 406,
+            421, 406, 418,
+            428, 421, 262,
+            262, 421, 418,
+            369, 428, 262,
+            396, 428, 369,
+            377, 396, 400,
+            400, 396, 369,
+            262, 406, 431,
+            400, 262, 431
+        };
+        //   [83, 182, 170, 176, 148, 171, 208, 201, 83]];
+        //   [313, 421, 428, 396, 377, 400, 395, 406, 313] // 18
         public static List<List<int[]>> exerciseMusclesArray = new List<List<int[]>> {
         new List<int[]> {ZygoMajorLeft, ZygoMinorLeft, OrbiOculiLeft, RisoriusLeft, LevatorLabii2Left},
         new List<int[]> {FrontalisLeft, ProcerusLeft, OrbiOculiLeft, CorrugatorSupercilliLeft, LevatorLabiiLeft},
-        new List<int[]> {CorrugatorSupercilliLeft, DepressorSuperLeft, ZygoMajorLeft, FrontalisLeft} // Mentalis 
+        new List<int[]> {CorrugatorSupercilliLeft, DepressorSuperLeft, ZygoMajorLeft, FrontalisLeft, MentalisLeft} // Mentalis 
+
     };
+        public static int[] FrontalisLeftLandmarks = new HashSet<int>(FrontalisLeft).ToArray();
+        public static int[] FrontalisRightLandmarks = new HashSet<int>(FrontalisRight).ToArray();
+        public static int[] MentalisLeftLandmarks = new HashSet<int>(MentalisLeft).ToArray();
+        public static int[] MentalisRightLandmarks = new HashSet<int>(MentalisRight).ToArray();
 
     }
 

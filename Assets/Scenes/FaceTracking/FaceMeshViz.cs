@@ -1,9 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Unity.Collections;
-using UnityEngine.Rendering;
 using UnityEngine.XR.ARSubsystems;
 
 namespace UnityEngine.XR.ARFoundation.Samples
@@ -22,7 +17,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
         /// Get the <c>Mesh</c> that this visualizer creates and manages.
         /// </summary>
         public Mesh mesh { get; private set; }
-        public List<Material> materials = new List<Material>();
+        public List<Material> activationMaterials = new List<Material>();
+        // Material[] activationMaterials;
         void SetVisible(bool visible)
         {
             m_MeshRenderer = GetComponent<MeshRenderer>();
@@ -51,38 +47,15 @@ namespace UnityEngine.XR.ARFoundation.Samples
             if (m_Face.vertices.Length > 0 && m_Face.indices.Length > 0)
             {
                 mesh.SetVertices(m_Face.vertices);
-                mesh.subMeshCount = 26;
 
-                mesh.SetIndices(m_Face.indices, MeshTopology.Triangles, 0);
-                mesh.SetTriangles(MuscleTriangles.FrontalisLeft, 1, false);
-                mesh.SetTriangles(MuscleTriangles.CorrugatorSupercilliLeft, 2, false);
-                mesh.SetTriangles(MuscleTriangles.ZygoMajorLeft, 3, false);
-                mesh.SetTriangles(MuscleTriangles.ZygoMinorLeft, 4, false);
-                mesh.SetTriangles(MuscleTriangles.ProcerusLeft, 5, false);
-                mesh.SetTriangles(MuscleTriangles.DepressorSuperLeft, 6, false);
-                mesh.SetTriangles(MuscleTriangles.NasalisLeft, 7, false);
-                mesh.SetTriangles(MuscleTriangles.LevatorLabiiLeft, 8, false);
-                mesh.SetTriangles(MuscleTriangles.LevatorLabii2Left, 9, false);
-                mesh.SetTriangles(MuscleTriangles.BuccinatorLeft, 10, false);
-                mesh.SetTriangles(MuscleTriangles.RisoriusLeft, 11, false);
-                mesh.SetTriangles(MuscleTriangles.OrbOrisLeft, 12, false);
-                // mesh.SetTriangles(MuscleTriangles.OrbiOculiLeft, 12, false);
+                var muscles = MuscleTriangles.exerciseMusclesArray[(int)exerciseType];
+                mesh.subMeshCount = muscles.Count;
 
-                mesh.SetTriangles(MuscleTriangles.FrontalisRight, 13, false);
-                mesh.SetTriangles(MuscleTriangles.CorrugatorSupercilliRight, 14, false);
-                mesh.SetTriangles(MuscleTriangles.ZygoMajorRight, 15, false);
-                mesh.SetTriangles(MuscleTriangles.ZygoMinorRight, 16, false);
-                mesh.SetTriangles(MuscleTriangles.ProcerusRight, 17, false);
-                mesh.SetTriangles(MuscleTriangles.DepressorSuperRight, 18, false);
-                // mesh.SetTriangles(MuscleTriangles.OrbiOculiRight, 12, false);
-                mesh.SetTriangles(MuscleTriangles.NasalisRight, 19, false);
-                mesh.SetTriangles(MuscleTriangles.LevatorLabiiRight, 20, false);
-                mesh.SetTriangles(MuscleTriangles.LevatorLabii2Right, 21, false);
-                mesh.SetTriangles(MuscleTriangles.BuccinatorRight, 22, false);
-                mesh.SetTriangles(MuscleTriangles.RisoriusRight, 23, false);
-                // mesh.SetTriangles(MuscleTriangles.Masseter, 13, false);
-                mesh.SetTriangles(MuscleTriangles.OrbOrisRight, 24, false);
-
+                Debug.Log($"{muscles.Count} muscles for {exerciseType}");
+                for (int i = 0; i < muscles.Count; i++)
+                {
+                    mesh.SetTriangles(muscles[i], i);
+                }
 
                 mesh.RecalculateBounds();
                 if (m_Face.normals.Length == m_Face.vertices.Length)
@@ -96,12 +69,16 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
                 if (m_Face.uvs.Length > 0)
                 {
-                    Debug.Log("Setting UVs");
-                    using (new ScopedProfiler("SetUVs"))
-                        mesh.SetUVs(0, m_Face.uvs);
+                    mesh.SetUVs(0, m_Face.uvs);
                 }
 
-
+                // set materials based on activation levels
+                Material[] materials = new Material[mesh.subMeshCount];
+                for (int i = 0; i < mesh.subMeshCount; i++)
+                {
+                    materials[i] = activationMaterials[Random.Range(0, activationMaterials.Count)];
+                }
+                m_MeshRenderer.materials = materials;
                 // StringBuilder sb = new StringBuilder();
                 // var sharedMaterials = m_MeshRenderer.sharedMaterials;
                 // // Write each vertex with its index and position
@@ -154,56 +131,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
             }
 
             m_TopologyUpdatedThisFrame = true;
-            // m_MeshRenderer.materials = materials.ToArray();
-            // m_MeshRenderer.sharedMaterials = materials.ToArray();
-            // using (new ScopedProfiler("SetMeshTopology"))
-            // {
-            //     using (new ScopedProfiler("ClearMesh"))
-            //         mesh.Clear();
-
-            //     if (m_Face.vertices.Length > 0 && m_Face.indices.Length > 0)
-            //     {
-            //         using (new ScopedProfiler("SetVertices"))
-            //             mesh.SetVertices(m_Face.vertices);
-
-            //         using (new ScopedProfiler("SetIndices"))
-            //             mesh.SetIndices(m_Face.indices, MeshTopology.Triangles, 0, false);
-
-            //         using (new ScopedProfiler("RecalculateBounds"))
-            //             mesh.RecalculateBounds();
-
-            //         if (m_Face.normals.Length == m_Face.vertices.Length)
-            //         {
-            //             using (new ScopedProfiler("SetNormals"))
-            //                 mesh.SetNormals(m_Face.normals);
-            //         }
-            //         else
-            //         {
-            //             using (new ScopedProfiler("RecalculateNormals"))
-            //                 mesh.RecalculateNormals();
-            //         }
-            //     }
-
-            //     if (m_Face.uvs.Length > 0)
-            //     {
-            //         using (new ScopedProfiler("SetUVs"))
-            //             mesh.SetUVs(0, m_Face.uvs);
-            //     }
-
-            //     var meshFilter = GetComponent<MeshFilter>();
-            //     if (meshFilter != null)
-            //     {
-            //         meshFilter.sharedMesh = mesh;
-            //     }
-
-            //     var meshCollider = GetComponent<MeshCollider>();
-            //     if (meshCollider != null)
-            //     {
-            //         meshCollider.sharedMesh = mesh;
-            //     }
-
-            //     m_TopologyUpdatedThisFrame = true;
-            // }
         }
 
         void UpdateVisibility()
@@ -234,13 +161,9 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             mesh = new Mesh();
             m_MeshRenderer = GetComponent<MeshRenderer>();
-            activationMaterials = materials.ToArray();
-            muscleMaterials = new Material[26];
-            muscleMaterials[0] = activationMaterials[0];
-
-            m_MeshRenderer.materials = materials.ToArray();
-            m_MeshRenderer.sharedMaterials = materials.ToArray();
             m_Face = GetComponent<ARFace>();
+            // set this through a drop down
+            exerciseType = ExerciseType.kSmile;
         }
 
         void OnEnable()
@@ -260,7 +183,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
         MeshRenderer m_MeshRenderer;
         bool m_TopologyUpdatedThisFrame;
 
-        Material[] activationMaterials;
-        Material[] muscleMaterials;
+        ExerciseType exerciseType;
     }
 }

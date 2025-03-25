@@ -179,10 +179,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Anchors/TestAnchors.unity
     guid: 59827dbbb0f3741848771ee28a1081d3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FaceTracking/FaceMesh/FaceMeshMannequin.unity
     guid: edbc500ddd2f371448d0f8093d29bdc9
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/FaceTracking/FaceMesh/FaceMeshBarChart.unity
     guid: c32b4493aa5841d4584207ad3d3d959b
   m_configObjects:
