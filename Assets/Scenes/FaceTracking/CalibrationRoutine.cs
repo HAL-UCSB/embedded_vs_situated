@@ -120,18 +120,22 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 {
                     case CalibrationPhase.Baseline:
                         CalibrationLandmarks.baselineLandmarks = smoothedVertices;
+                        Debug.LogFormat($"Set {CalibrationLandmarks.baselineLandmarks.Length} baseline landmarks", tag = "IntARFace");
                         break;
 
                     case CalibrationPhase.Smile:
                         CalibrationLandmarks.smileLandmarks = smoothedVertices;
+                        Debug.LogFormat($"Set {CalibrationLandmarks.smileLandmarks.Length} smile landmarks", tag = "IntARFace");
                         break;
 
                     case CalibrationPhase.EyebrowRaise:
                         CalibrationLandmarks.eyebrowraiseLandmarks = smoothedVertices;
+                        Debug.LogFormat($"Set {CalibrationLandmarks.eyebrowraiseLandmarks.Length} brow landmarks", tag = "IntARFace");
                         break;
 
                     case CalibrationPhase.ReverseFrown:
                         CalibrationLandmarks.reversefrownLandmarks = smoothedVertices;
+                        Debug.LogFormat($"Set {CalibrationLandmarks.reversefrownLandmarks.Length} frown landmarks", tag = "IntARFace");
                         break;
 
                     default:

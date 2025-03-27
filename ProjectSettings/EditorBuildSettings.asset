@@ -183,6 +183,9 @@ EditorBuildSettings:
     path: Assets/Scenes/FaceTracking/FaceMesh/FaceMeshMannequin.unity
     guid: edbc500ddd2f371448d0f8093d29bdc9
   - enabled: 1
+    path: Assets/Scenes/FaceTracking/FaceMesh/FaceMeshCalibration.unity
+    guid: a1228076a70043549afdd9a08cf6aadb
+  - enabled: 1
     path: Assets/Scenes/FaceTracking/FaceMesh/FaceMeshBarChart.unity
     guid: c32b4493aa5841d4584207ad3d3d959b
   m_configObjects:

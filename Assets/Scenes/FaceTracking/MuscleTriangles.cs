@@ -348,17 +348,40 @@ namespace UnityEngine.XR.ARFoundation.Samples
         };
         //   [83, 182, 170, 176, 148, 171, 208, 201, 83]];
         //   [313, 421, 428, 396, 377, 400, 395, 406, 313] // 18
+        public static int[] FrontalisLeftLandmarks = new HashSet<int>(FrontalisLeft).ToArray();
+        public static int[] FrontalisRightLandmarks = new HashSet<int>(FrontalisRight).ToArray();
+        public static int[] ZygoMajorLeftLandmarks = new HashSet<int>(ZygoMajorLeft).ToArray();
+        public static int[] ZygoMajorRightLandmarks = new HashSet<int>(ZygoMajorRight).ToArray();
+        public static int[] ZygoMinorLeftLandmarks = new HashSet<int>(ZygoMinorLeft).ToArray();
+        public static int[] ZygoMinorRightLandmarks = new HashSet<int>(ZygoMinorRight).ToArray();
+        public static int[] ProcerusLeftLandmarks = new HashSet<int>(ProcerusLeft).ToArray();
+        public static int[] ProcerusRightLandmarks = new HashSet<int>(ProcerusRight).ToArray();
+        public static int[] OrbiOculiLeftLandmarks = new HashSet<int>(OrbiOculiLeft).ToArray();
+        // public static int[] OrbiOculiRightLandmarks = new HashSet<int>(OrbiOculiRight).ToArray();
+        public static int[] CorrugatorSupercilliLeftLandmarks = new HashSet<int>(CorrugatorSupercilliLeft).ToArray();
+        public static int[] CorrugatorSupercilliRightLandmarks = new HashSet<int>(CorrugatorSupercilliRight).ToArray();
+        public static int[] RisoriusLeftLandmarks = new HashSet<int>(RisoriusLeft).ToArray();
+        public static int[] RisoriusRightLandmarks = new HashSet<int>(RisoriusRight).ToArray();
+        public static int[] LevatorLabii2LeftLandmarks = new HashSet<int>(LevatorLabii2Left).ToArray();
+        public static int[] LevatorLabii2RightLandmarks = new HashSet<int>(LevatorLabii2Right).ToArray();
+        public static int[] LevatorLabiiLeftLandmarks = new HashSet<int>(LevatorLabiiLeft).ToArray();
+        public static int[] LevatorLabiiRightLandmarks = new HashSet<int>(LevatorLabiiRight).ToArray();
+        public static int[] MentalisLeftLandmarks = new HashSet<int>(MentalisLeft).ToArray();
+        public static int[] MentalisRightLandmarks = new HashSet<int>(MentalisRight).ToArray();
+        public static int[] DepressorSuperLeftLandmarks = new HashSet<int>(DepressorSuperLeft).ToArray();
+        public static int[] DepressorSuperRightLandmarks = new HashSet<int>(DepressorSuperRight).ToArray();
+
         public static List<List<int[]>> exerciseMusclesArray = new List<List<int[]>> {
         new List<int[]> {ZygoMajorLeft, ZygoMinorLeft, OrbiOculiLeft, RisoriusLeft, LevatorLabii2Left},
         new List<int[]> {FrontalisLeft, ProcerusLeft, OrbiOculiLeft, CorrugatorSupercilliLeft, LevatorLabiiLeft},
-        new List<int[]> {CorrugatorSupercilliLeft, DepressorSuperLeft, ZygoMajorLeft, FrontalisLeft, MentalisLeft} // Mentalis 
+        new List<int[]> {CorrugatorSupercilliLeft, DepressorSuperLeft, ZygoMajorLeft, FrontalisLeft, MentalisLeft}};
 
-    };
-        public static int[] FrontalisLeftLandmarks = new HashSet<int>(FrontalisLeft).ToArray();
-        public static int[] FrontalisRightLandmarks = new HashSet<int>(FrontalisRight).ToArray();
-        public static int[] MentalisLeftLandmarks = new HashSet<int>(MentalisLeft).ToArray();
-        public static int[] MentalisRightLandmarks = new HashSet<int>(MentalisRight).ToArray();
-
+        public static List<List<int[]>> exerciseLandmarks = new List<List<int[]>> {
+            new List<int[]>{ZygoMajorLeftLandmarks, ZygoMinorLeftLandmarks,
+                                            OrbiOculiLeftLandmarks, RisoriusLeftLandmarks, LevatorLabii2LeftLandmarks},
+            new List<int[]> {FrontalisLeftLandmarks, ProcerusLeftLandmarks, OrbiOculiLeftLandmarks, CorrugatorSupercilliLeftLandmarks, LevatorLabiiLeftLandmarks},
+            new List<int[]> {CorrugatorSupercilliLeftLandmarks, DepressorSuperLeftLandmarks, ZygoMajorLeftLandmarks, FrontalisLeftLandmarks, MentalisLeftLandmarks}
+        };
     }
 
     // List<int> otherVertices = Enumerable.Range(1, 468).ToList();

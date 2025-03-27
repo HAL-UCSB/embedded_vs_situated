@@ -11,7 +11,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         void Start()
         {
-            currentActivation = maxActivation;
+            currentActivation = 0.0f;
             activationBarFill = GetComponent<Image>();
             UpdateActivationBar();
         }
@@ -27,7 +27,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             float activationPercentage = currentActivation / maxActivation;
             activationBarFill.fillAmount = activationPercentage;
-
             // Change color based on activation level
             if (activationPercentage > 0.7f)
                 activationBarFill.color = Color.blue; // High activation
