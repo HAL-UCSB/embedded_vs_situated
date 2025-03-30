@@ -22,17 +22,28 @@ namespace UnityEngine.XR.ARFoundation.Samples
         private CalibrationPhase nextCalibrationPhase;
         private bool timerRunning = false;
 
+        bool calibrationStarted = false;
         private LandmarkMovingAverageFilter landmarkMovingAverage = new LandmarkMovingAverageFilter(10);
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
             calibrationPhase = CalibrationPhase.Baseline;
             nextCalibrationPhase = CalibrationPhase.Baseline;
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        }
+
+        public void StartCalibration()
+        {
+            calibrationStarted = true;
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (!calibrationStarted)
+            {
+                return;
+            }
             if (calibrationPhase == CalibrationPhase.End)
             {
                 SceneManagement.SceneManager.LoadScene(1);
@@ -102,6 +113,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         public void ProcessFaceLandmarks(ARTrackablesChangedEventArgs<ARFace> trackablesChangedEventArgs)
         {
+            if (!calibrationStarted)
+            {
+                return;
+            }
             ARFace arFace = null;
             if (trackablesChangedEventArgs.added.Count > 0)
             {
@@ -120,22 +135,22 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 {
                     case CalibrationPhase.Baseline:
                         CalibrationLandmarks.baselineLandmarks = smoothedVertices;
-                        Debug.LogFormat($"Set {CalibrationLandmarks.baselineLandmarks.Length} baseline landmarks", tag = "IntARFace");
+                        Debug.Log($"Set {CalibrationLandmarks.baselineLandmarks.Length} baseline landmarks");
                         break;
 
                     case CalibrationPhase.Smile:
                         CalibrationLandmarks.smileLandmarks = smoothedVertices;
-                        Debug.LogFormat($"Set {CalibrationLandmarks.smileLandmarks.Length} smile landmarks", tag = "IntARFace");
+                        Debug.Log($"Set {CalibrationLandmarks.smileLandmarks.Length} smile landmarks");
                         break;
 
                     case CalibrationPhase.EyebrowRaise:
                         CalibrationLandmarks.eyebrowraiseLandmarks = smoothedVertices;
-                        Debug.LogFormat($"Set {CalibrationLandmarks.eyebrowraiseLandmarks.Length} brow landmarks", tag = "IntARFace");
+                        Debug.Log($"Set {CalibrationLandmarks.eyebrowraiseLandmarks.Length} brow landmarks");
                         break;
 
                     case CalibrationPhase.ReverseFrown:
                         CalibrationLandmarks.reversefrownLandmarks = smoothedVertices;
-                        Debug.LogFormat($"Set {CalibrationLandmarks.reversefrownLandmarks.Length} frown landmarks", tag = "IntARFace");
+                        Debug.Log($"Set {CalibrationLandmarks.reversefrownLandmarks.Length} frown landmarks");
                         break;
 
                     default:

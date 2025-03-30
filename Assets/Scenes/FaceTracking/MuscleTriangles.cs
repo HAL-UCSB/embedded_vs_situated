@@ -158,12 +158,12 @@ namespace UnityEngine.XR.ARFoundation.Samples
                  8, 285, 417
         };
 
-        public static int[] DepressorSuperRight = new int[] {
+        public static int[] DepressorSuperLeft = new int[] {
             417, 285, 441,
             417, 441, 413,
             413, 441, 286,
             413, 286, 414};
-        public static int[] DepressorSuperLeft = new int[] {
+        public static int[] DepressorSuperRight = new int[] {
             221,  55, 193,
             221, 193, 189,
              56, 221, 189,

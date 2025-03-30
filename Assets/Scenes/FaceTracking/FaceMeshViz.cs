@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 using UnityEngine.XR.ARSubsystems;
 
 namespace UnityEngine.XR.ARFoundation.Samples
@@ -18,6 +19,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
         /// </summary>
         public Mesh mesh { get; private set; }
         public List<Material> activationMaterials = new List<Material>();
+        // public ExerciseRoutine exerciseRoutine;
+        public GameObject exerciseRoutinePrefab;
         // Material[] activationMaterials;
         void SetVisible(bool visible)
         {
@@ -35,6 +38,60 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             m_MeshRenderer.enabled = visible;
         }
+        int[] ComputeMuscleActivation(Vector3[] faceLandmarks)
+        {
+            var baseline = CalibrationLandmarks.baselineLandmarks;
+            var current = landmarkMovingAverageFilter.Process(faceLandmarks);
+            Vector3[] exercise = null;
+
+            if (exerciseType == ExerciseType.kSmile)
+            {
+                exercise = CalibrationLandmarks.smileLandmarks;
+            }
+            else if (exerciseType == ExerciseType.kEyebrowRaise)
+            {
+                exercise = CalibrationLandmarks.eyebrowraiseLandmarks;
+            }
+            else
+            {
+                exercise = CalibrationLandmarks.reversefrownLandmarks;
+            }
+
+            Assert.IsNotNull(exercise, "Invalid exercise");
+            var muscleLandmarks = MuscleTriangles.exerciseLandmarks[(int)exerciseType];
+            int[] activations = new int[muscleLandmarks.Count];
+
+            for (int i = 0; i < muscleLandmarks.Count; i++)
+            {
+                var landmarks = muscleLandmarks[i];
+                var baselinePos = Vector3.zero;
+                var currentPos = Vector3.zero;
+                var exercisePos = Vector3.zero;
+                foreach (var landmark in landmarks)
+                {
+                    currentPos += current[landmark];
+                    baselinePos += baseline[landmark];
+                    exercisePos += exercise[landmark];
+                }
+                var currDist = (currentPos - baselinePos).magnitude;
+                var maxDist = (exercisePos - baselinePos).magnitude;
+                var activation = currDist / maxDist;
+                if (activation < 0.2)
+                {
+                    activations[i] = 0;
+                }
+                else if (activation > 0.7)
+                {
+                    activations[i] = 2;
+                }
+                else
+                {
+                    activations[i] = 1;
+                }
+            }
+            return activations;
+        }
+
 
         void SetMeshTopology()
         {
@@ -73,10 +130,11 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 }
 
                 // set materials based on activation levels
+                var activationIdx = ComputeMuscleActivation(m_Face.vertices.ToArray());
                 Material[] materials = new Material[mesh.subMeshCount];
                 for (int i = 0; i < mesh.subMeshCount; i++)
                 {
-                    materials[i] = activationMaterials[Random.Range(0, activationMaterials.Count)];
+                    materials[i] = activationMaterials[activationIdx[i]];
                 }
                 m_MeshRenderer.materials = materials;
                 // StringBuilder sb = new StringBuilder();
@@ -157,13 +215,36 @@ namespace UnityEngine.XR.ARFoundation.Samples
             UpdateVisibility();
         }
 
+        void Start()
+        {
+            GameObject gameObj = null;
+            if (exerciseRoutinePrefab != null)
+            {
+                gameObj = Instantiate(exerciseRoutinePrefab);
+                Debug.Log($"ER created with {exerciseRoutine}");
+            }
+            if (gameObj != null)
+            {
+                exerciseRoutine = gameObj.GetComponent<ExerciseRoutine>();
+            }
+            Assert.IsNotNull(exerciseRoutine, "Routine is null");
+            exercisePhase = exerciseRoutine.currentExercisePhase();
+            exerciseType = exerciseRoutine.currentExercise();
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        }
+        void Update()
+        {
+            exercisePhase = exerciseRoutine.currentExercisePhase();
+            exerciseType = exerciseRoutine.currentExercise();
+        }
         void Awake()
         {
             mesh = new Mesh();
             m_MeshRenderer = GetComponent<MeshRenderer>();
             m_Face = GetComponent<ARFace>();
             // set this through a drop down
-            exerciseType = ExerciseType.kSmile;
+            // exerciseType = ExerciseType.kSmile;
+            landmarkMovingAverageFilter = new LandmarkMovingAverageFilter(5);
         }
 
         void OnEnable()
@@ -182,7 +263,11 @@ namespace UnityEngine.XR.ARFoundation.Samples
         ARFace m_Face;
         MeshRenderer m_MeshRenderer;
         bool m_TopologyUpdatedThisFrame;
+        LandmarkMovingAverageFilter landmarkMovingAverageFilter;
 
+        ExerciseRoutine exerciseRoutine;
+
+        ExercisePhase exercisePhase;
         ExerciseType exerciseType;
     }
 }
