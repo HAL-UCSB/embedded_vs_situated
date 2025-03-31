@@ -147,7 +147,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7d2e13231d25949c8a6b5b279425a136, type: 2}
   - {fileID: 2100000, guid: 41e849f25b9a04f9ea07d362bb87a2f9, type: 2}
   - {fileID: 2100000, guid: 91ff3830fc4055a4fb0d0d2be32101a7, type: 2}
-  exerciseRoutinePrefab: {fileID: 2497618103025697228, guid: eddfe4914ea0801439a9056e10298ab4,
+  exerciseRoutinePrefab: {fileID: 4451334289873667433, guid: b8d37caac5046c34b91ccc9943ebdfbe,
     type: 3}
 --- !u!64 &7529478533492302473
 MeshCollider:

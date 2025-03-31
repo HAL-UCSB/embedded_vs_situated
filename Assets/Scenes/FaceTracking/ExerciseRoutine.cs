@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.Assertions;
 
 namespace UnityEngine.XR.ARFoundation.Samples
 {
@@ -14,18 +15,18 @@ namespace UnityEngine.XR.ARFoundation.Samples
     }
     public class ExerciseRoutine : MonoBehaviour
     {
-        public TextMeshProUGUI instructionText;
+        // public TextMeshProUGUI instructionText;
         public TextMeshProUGUI timerText;
 
         private ExercisePhase exercisePhase;
         private ExercisePhase nextExercisePhase;
         private bool timerRunning = false;
 
-        List<ExerciseType> exercises = new List<ExerciseType> { ExerciseType.kSmile, ExerciseType.kEyebrowRaise, ExerciseType.kReverseFrown };
+        List<ExerciseType> exerciseTypes = new List<ExerciseType> { ExerciseType.kSmile, ExerciseType.kEyebrowRaise, ExerciseType.kReverseFrown };
+        List<string> exercises = new List<string> { "Smile", "Eyebrow Raise", "Reverse Frown" };
 
         private int numRepetitions;
         private int numRep;
-        private LandmarkMovingAverageFilter landmarkMovingAverage = new LandmarkMovingAverageFilter(10);
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -34,6 +35,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             nextExercisePhase = ExercisePhase.Start;
             numRepetitions = exercises.Count * 2;
             numRep = 0;
+            Assert.IsNotNull(timerText);
         }
 
         // Update is called once per frame
@@ -45,14 +47,16 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 switch (nextExercisePhase)
                 {
                     case ExercisePhase.Start:
-                        instructionText.text = "Get ready";
+                        // instructionText.text = "Get ready";
+                        timerText.text = "Get ready to exercise in ";
                         nextExercisePhase = ExercisePhase.Exercise;
                         StartCoroutine(CountdownTimer(10));
                         break;
                     case ExercisePhase.Break:
                         if (nextExercisePhase != exercisePhase)
                         {
-                            instructionText.text = "Break time";
+                            // instructionText.text = "Break time";
+                            timerText.text = "Break time for ";
                             StartCoroutine(CountdownTimer(5));
                             exercisePhase = ExercisePhase.Break;
                         }
@@ -60,14 +64,16 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     case ExercisePhase.Exercise:
                         if (nextExercisePhase != exercisePhase)
                         {
-                            instructionText.text = $"Perform {exercises[numRep % exercises.Count]} exercise";
+                            // instructionText.text = $"Perform {exercises[numRep % exercises.Count]} exercise";
+                            timerText.text = $"Perform {exercises[numRep % exercises.Count]} exercise for ";
                             exercisePhase = ExercisePhase.Exercise;
                             StartCoroutine(CountdownTimer(10));
                         }
                         break;
 
                     case ExercisePhase.End:
-                        instructionText.text = "All done!";
+                        // instructionText.text = "All done!";
+                        timerText.text = "All done!";
                         break;
 
 
@@ -76,7 +82,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         }
         public ExerciseType currentExercise()
         {
-            return exercises[numRep % exercises.Count];
+            return exerciseTypes[numRep % exercises.Count];
         }
         public ExercisePhase currentExercisePhase()
         {
@@ -103,8 +109,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         void UpdateTimerUI(float time)
         {
-            if (timerText != null)
-                timerText.text = $"Time: {time}s";
+            timerText.text += $"{time}s";
         }
 
         void TimerEnded()

@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using UnityEngine.Assertions;
 
 namespace UnityEngine.XR.ARFoundation.Samples
 {
@@ -18,18 +19,23 @@ namespace UnityEngine.XR.ARFoundation.Samples
         public TextMeshProUGUI instructionText;
         public TextMeshProUGUI timerText;
 
-        private CalibrationPhase calibrationPhase;
-        private CalibrationPhase nextCalibrationPhase;
-        private bool timerRunning = false;
+        CalibrationPhase calibrationPhase;
+        CalibrationPhase nextCalibrationPhase;
+        bool timerRunning = false;
 
         bool calibrationStarted = false;
-        private LandmarkMovingAverageFilter landmarkMovingAverage = new LandmarkMovingAverageFilter(10);
+        LandmarkMovingAverageFilter landmarkMovingAverage = new LandmarkMovingAverageFilter(10);
+
+        AudioSource audioSource;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
             calibrationPhase = CalibrationPhase.Baseline;
             nextCalibrationPhase = CalibrationPhase.Baseline;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
+            audioSource = GetComponent<AudioSource>();
+            Assert.IsNotNull(audioSource);
+            Assert.IsNotNull(timerText);
         }
 
         public void StartCalibration()
@@ -53,27 +59,31 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 switch (nextCalibrationPhase)
                 {
                     case CalibrationPhase.Baseline:
-                        instructionText.text = "Please keep a neutral expression";
+                        // instructionText.text = "Please keep a neutral expression";
+                        timerText.text = "Please keep a neutral expression for ";
                         StartCoroutine(CountdownTimer(10));
                         break;
                     case CalibrationPhase.Smile:
                         if (nextCalibrationPhase != calibrationPhase)
                         {
-                            instructionText.text = "Get ready to smile";
+                            // instructionText.text = "Get ready to smile";
+                            timerText.text = "Get ready to smile in ";
                             // calibrationPhase = CalibrationPhase.Smile;
                             StartCoroutine(CountdownTimer(5));
                         }
                         else
                         {
                             landmarkMovingAverage.Reset();
-                            instructionText.text = "Please smile";
+                            // instructionText.text = "Please smile";
+                            timerText.text = "Please smile for ";
                             StartCoroutine(CountdownTimer(10));
                         }
                         break;
                     case CalibrationPhase.EyebrowRaise:
                         if (nextCalibrationPhase != calibrationPhase)
                         {
-                            instructionText.text = "Get ready to raise brows";
+                            // instructionText.text = "Get ready to raise brows";
+                            timerText.text = "Get ready to raise brows in ";
                             // calibrationPhase = CalibrationPhase.EyebrowRaise;
                             StartCoroutine(CountdownTimer(5));
 
@@ -81,7 +91,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
                         else
                         {
                             landmarkMovingAverage.Reset();
-                            instructionText.text = "Please raise your brows";
+                            // instructionText.text = "Please raise your brows";
+                            timerText.text = "Please raise your brows for ";
                             StartCoroutine(CountdownTimer(10));
                         }
                         break;
@@ -89,20 +100,23 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     case CalibrationPhase.ReverseFrown:
                         if (nextCalibrationPhase != calibrationPhase)
                         {
-                            instructionText.text = "Get ready to frown";
+                            // instructionText.text = "Get ready to frown";
+                            timerText.text = "Get ready to frown in ";
                             StartCoroutine(CountdownTimer(5));
                         }
                         else
                         {
                             landmarkMovingAverage.Reset();
-                            instructionText.text = "Please do the reverse frown";
+                            // instructionText.text = "Please do the reverse frown";
+                            timerText.text = "Please do the reverse frown for ";
                             StartCoroutine(CountdownTimer(10));
                         }
                         break;
 
                     case CalibrationPhase.End:
                         calibrationPhase = CalibrationPhase.End;
-                        instructionText.text = "Calibration Done!";
+                        // instructionText.text = "Calibration Done!";
+                        timerText.text = "Calibration Done!";
                         break;
 
                 }
@@ -162,6 +176,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         IEnumerator CountdownTimer(float startTime)
         {
+            audioSource.Play();
             var currentTime = startTime;
             timerRunning = true;
             while (currentTime > 0)
@@ -181,8 +196,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         void UpdateTimerUI(float time)
         {
-            if (timerText != null)
-                timerText.text = $"Time: {time}s";
+            timerText.text += $"{time}s";
         }
 
         void TimerEnded()

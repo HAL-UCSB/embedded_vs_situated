@@ -202,6 +202,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         void OnUpdated(ARFaceUpdatedEventArgs eventArgs)
         {
+            if (exercisePhase != ExercisePhase.Exercise)
+            {
+                return;
+            }
             UpdateVisibility();
             if (!m_TopologyUpdatedThisFrame)
             {
@@ -236,6 +240,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             exercisePhase = exerciseRoutine.currentExercisePhase();
             exerciseType = exerciseRoutine.currentExercise();
+            if (exercisePhase != ExercisePhase.Exercise)
+            {
+                SetVisible(false);
+            }
         }
         void Awake()
         {
