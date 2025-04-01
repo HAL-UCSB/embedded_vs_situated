@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine.Assertions;
 using UnityEngine.XR.ARSubsystems;
+using UnityEngine.XR.Interaction.Toolkit.AffordanceSystem.Receiver.Primitives;
 
 namespace UnityEngine.XR.ARFoundation.Samples
 {
@@ -48,7 +49,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             if (exerciseRoutinePrefab != null)
             {
                 gameObj = Instantiate(exerciseRoutinePrefab);
-                Debug.Log($"ER created with {exerciseRoutine}");
+                // Debug.Log($"ER created with {exerciseRoutine}");
             }
             if (gameObj != null)
             {
@@ -60,9 +61,16 @@ namespace UnityEngine.XR.ARFoundation.Samples
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
         }
 
-        int[] ComputeMuscleActivation(Vector3[] faceLandmarks)
+        int[] ComputeMuscleActivation(Vector3[] faceLandmarks, Quaternion faceRotation)
         {
             var baseline = CalibrationLandmarks.baselineLandmarks;
+            // var faceInverseRotation = Quaternion.Inverse(faceRotation);
+            // for (int i = 0; i < faceLandmarks.Length; i++)
+            // {
+            //     faceLandmarks[i] = CalibrationLandmarks.RotateAroundPivot(faceLandmarks[i],
+            //                                                               faceLandmarks[4],
+            //                                                           faceInverseRotation);
+            // }
             var current = landmarkMovingAverageFilter.Process(faceLandmarks);
             Vector3[] exercise = null;
 
@@ -98,7 +106,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 var currDist = (currentPos - baselinePos).magnitude;
                 var maxDist = (exercisePos - baselinePos).magnitude;
                 var activation = currDist / maxDist;
-                if (activation < 0.2)
+                Debug.Log($"CD : {currDist} MD: {maxDist} A: {activation}");
+                if (activation < 0.3)
                 {
                     activations[i] = 0;
                 }
@@ -118,6 +127,15 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             exercisePhase = exerciseRoutine.currentExercisePhase();
             exerciseType = exerciseRoutine.currentExercise();
+            if (exercisePhase != ExercisePhase.Exercise)
+            {
+                SetVisible(false);
+            }
+
+            if (exercisePhase == ExercisePhase.Break && landmarkMovingAverageFilter.IsInitialized())
+            {
+                landmarkMovingAverageFilter.Reset();
+            }
         }
 
         void SetMeshTopology()
@@ -157,7 +175,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
                 mesh.SetIndices(m_Face.indices, MeshTopology.Triangles, 0);
 
-                Debug.Log($"CEP : {exercisePhase}; Ex : {exerciseType}");
+                Debug.Log($"Face rotation {m_Face.pose.rotation}");
                 var muscles = MuscleTriangles.exerciseMusclesArray[(int)exerciseType];
                 mesh.subMeshCount = muscles.Count + 1;
                 Material[] materials = new Material[mesh.subMeshCount];
@@ -168,7 +186,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     mesh.SetTriangles(muscles[i], i + 1);
                 }
 
-                var activationIdx = ComputeMuscleActivation(m_Face.vertices.ToArray());
+                var activationIdx = ComputeMuscleActivation(m_Face.vertices.ToArray(), m_Face.pose.rotation);
                 // set materials based on activation levels
                 for (int i = 0; i < activationIdx.Length; i++)
                 {
@@ -246,7 +264,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             m_MeshRenderer = GetComponent<MeshRenderer>();
             m_Face = GetComponent<ARFace>();
 
-            landmarkMovingAverageFilter = new LandmarkMovingAverageFilter(5);
+            landmarkMovingAverageFilter = new LandmarkMovingAverageFilter(3);
             // gameObject.transform.position += new Vector3(0.05f, 0.15f, 0.6f);
         }
 
@@ -262,6 +280,11 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             m_Face.updated -= OnUpdated;
             ARSession.stateChanged -= OnSessionStateChanged;
+        }
+
+        void OnDestroy()
+        {
+            Destroy(exerciseRoutine);
         }
 
         ARFace m_Face;

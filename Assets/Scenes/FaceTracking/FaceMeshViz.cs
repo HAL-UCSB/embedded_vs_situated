@@ -38,9 +38,17 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             m_MeshRenderer.enabled = visible;
         }
-        int[] ComputeMuscleActivation(Vector3[] faceLandmarks)
+        int[] ComputeMuscleActivation(Vector3[] faceLandmarks, Quaternion faceRotation)
         {
             var baseline = CalibrationLandmarks.baselineLandmarks;
+            // var faceInverseRotation = Quaternion.Inverse(faceRotation);
+            // for (int i = 0; i < faceLandmarks.Length; i++)
+            // {
+            //     faceLandmarks[i] = CalibrationLandmarks.RotateAroundPivot(faceLandmarks[i],
+            //                                                               faceLandmarks[4],
+            //                                                           faceInverseRotation);
+            // }
+
             var current = landmarkMovingAverageFilter.Process(faceLandmarks);
             Vector3[] exercise = null;
 
@@ -76,7 +84,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 var currDist = (currentPos - baselinePos).magnitude;
                 var maxDist = (exercisePos - baselinePos).magnitude;
                 var activation = currDist / maxDist;
-                if (activation < 0.2)
+                if (activation < 0.3)
                 {
                     activations[i] = 0;
                 }
@@ -130,7 +138,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 }
 
                 // set materials based on activation levels
-                var activationIdx = ComputeMuscleActivation(m_Face.vertices.ToArray());
+                var activationIdx = ComputeMuscleActivation(m_Face.vertices.ToArray(),
+                                                            m_Face.pose.rotation);
                 Material[] materials = new Material[mesh.subMeshCount];
                 for (int i = 0; i < mesh.subMeshCount; i++)
                 {
@@ -225,7 +234,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
             if (exerciseRoutinePrefab != null)
             {
                 gameObj = Instantiate(exerciseRoutinePrefab);
-                Debug.Log($"ER created with {exerciseRoutine}");
             }
             if (gameObj != null)
             {
@@ -244,15 +252,18 @@ namespace UnityEngine.XR.ARFoundation.Samples
             {
                 SetVisible(false);
             }
+
+            if (exercisePhase == ExercisePhase.Break && landmarkMovingAverageFilter.IsInitialized())
+            {
+                landmarkMovingAverageFilter.Reset();
+            }
         }
         void Awake()
         {
             mesh = new Mesh();
             m_MeshRenderer = GetComponent<MeshRenderer>();
             m_Face = GetComponent<ARFace>();
-            // set this through a drop down
-            // exerciseType = ExerciseType.kSmile;
-            landmarkMovingAverageFilter = new LandmarkMovingAverageFilter(5);
+            landmarkMovingAverageFilter = new LandmarkMovingAverageFilter(3);
         }
 
         void OnEnable()
@@ -272,9 +283,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         MeshRenderer m_MeshRenderer;
         bool m_TopologyUpdatedThisFrame;
         LandmarkMovingAverageFilter landmarkMovingAverageFilter;
-
         ExerciseRoutine exerciseRoutine;
-
         ExercisePhase exercisePhase;
         ExerciseType exerciseType;
     }

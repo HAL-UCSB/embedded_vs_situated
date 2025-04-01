@@ -30,7 +30,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             // Change color based on activation level
             if (activationPercentage > 0.7f)
                 activationBarFill.color = Color.blue; // High activation
-            else if (activationPercentage > 0.2f)
+            else if (activationPercentage > 0.3f)
                 activationBarFill.color = Color.green;  // Mid activation
             else
                 activationBarFill.color = Color.red;   // Low activation

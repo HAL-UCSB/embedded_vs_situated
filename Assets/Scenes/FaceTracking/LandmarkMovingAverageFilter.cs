@@ -10,6 +10,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
         private Vector3[] _runningSum;
         private bool _initialized;
 
+        public bool IsInitialized() => _initialized;
+
         /// <summary>
         /// Initializes a moving average filter for face landmarks.
         /// </summary>
@@ -86,7 +88,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
             // Make a copy of the initial landmarks
             var copy = new Vector3[468];
             System.Array.Copy(initialLandmarks, copy, 468);
-
             _landmarkHistory.Enqueue(copy);
 
             // Initialize running sum

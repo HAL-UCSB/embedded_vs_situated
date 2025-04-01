@@ -382,6 +382,12 @@ namespace UnityEngine.XR.ARFoundation.Samples
             new List<int[]> {FrontalisLeftLandmarks, ProcerusLeftLandmarks, OrbiOculiLeftLandmarks, CorrugatorSupercilliLeftLandmarks, LevatorLabiiLeftLandmarks},
             new List<int[]> {CorrugatorSupercilliLeftLandmarks, DepressorSuperLeftLandmarks, ZygoMajorLeftLandmarks, FrontalisLeftLandmarks, MentalisLeftLandmarks}
         };
+
+        public static List<string[]> muscleNames = new List<string[]> {
+            new string[] {"ZygoMajor", "ZygoMinor", "OrbiOculi", "Risorius", "LevatorLabii2"},
+            new string[] {"Frontalis", "Procerus", "OrbiOculi", "CorrSuper", "LevatorLabii"},
+            new string[] {"CorrSuper", "DepSuper", "ZygoMajor", "Frontalis", "Mentalis"}
+        };
     }
 
     // List<int> otherVertices = Enumerable.Range(1, 468).ToList();

@@ -79,6 +79,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
                 Debug.Log($"Processing {currentExercise} exercise");
                 var muscleLandmarks = MuscleTriangles.exerciseLandmarks[(int)currentExercise];
+                var muscleNames = MuscleTriangles.muscleNames[(int)currentExercise];
+
                 float[] distances = new float[muscleLandmarks.Count];
                 float maxDistance = 0.0f;
 
@@ -99,6 +101,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     var maxDist = (exercisePos - baselinePos).magnitude;
                     distances[i] = currDist / maxDist;
                     muscleActivations[i].SetActivation(distances[i]);
+                    muscleLabels[i].text = muscleNames[i];
                     // if (distances[i] > maxDistance)
                     // {
                     //     maxDistance = distances[i];
@@ -134,6 +137,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     bar.transform.parent.transform.parent.gameObject.SetActive(true);
 
                 }
+            }
+            if (currentExercisePhase == ExercisePhase.Break && landmarkMovingAverageFilter.IsInitialized())
+            {
+                landmarkMovingAverageFilter.Reset();
             }
         }
     }

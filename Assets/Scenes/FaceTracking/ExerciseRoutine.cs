@@ -18,6 +18,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         // public TextMeshProUGUI instructionText;
         public TextMeshProUGUI timerText;
 
+        string instructionText;
         private ExercisePhase exercisePhase;
         private ExercisePhase nextExercisePhase;
         private bool timerRunning = false;
@@ -47,8 +48,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 switch (nextExercisePhase)
                 {
                     case ExercisePhase.Start:
-                        // instructionText.text = "Get ready";
-                        timerText.text = "Get ready to exercise in ";
+                        // instructionText = "Get ready";
+                        instructionText = "Get ready to exercise in ";
                         nextExercisePhase = ExercisePhase.Exercise;
                         StartCoroutine(CountdownTimer(10));
                         break;
@@ -56,7 +57,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                         if (nextExercisePhase != exercisePhase)
                         {
                             // instructionText.text = "Break time";
-                            timerText.text = "Break time for ";
+                            instructionText = "Break time for ";
                             StartCoroutine(CountdownTimer(5));
                             exercisePhase = ExercisePhase.Break;
                         }
@@ -65,7 +66,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                         if (nextExercisePhase != exercisePhase)
                         {
                             // instructionText.text = $"Perform {exercises[numRep % exercises.Count]} exercise";
-                            timerText.text = $"Perform {exercises[numRep % exercises.Count]} exercise for ";
+                            instructionText = $"Perform {exercises[numRep % exercises.Count]} exercise for ";
                             exercisePhase = ExercisePhase.Exercise;
                             StartCoroutine(CountdownTimer(10));
                         }
@@ -74,6 +75,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     case ExercisePhase.End:
                         // instructionText.text = "All done!";
                         timerText.text = "All done!";
+                        exercisePhase = ExercisePhase.End;
                         break;
 
 
@@ -109,7 +111,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         void UpdateTimerUI(float time)
         {
-            timerText.text += $"{time}s";
+            timerText.text = instructionText + $"{time}s";
         }
 
         void TimerEnded()
