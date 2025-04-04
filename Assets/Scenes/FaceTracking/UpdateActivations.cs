@@ -48,6 +48,17 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 var baseline = CalibrationLandmarks.baselineLandmarks;
                 var current = landmarkMovingAverageFilter.Process(arFace.vertices.ToArray());
                 Vector3[] exercise = null;
+                var verticesString = "";
+                var faceRotation = arFace.pose.rotation;
+                var facePosition = arFace.pose.position;
+                verticesString += $"{facePosition.x}, {facePosition.y}, {facePosition.z},";
+                verticesString += $"{faceRotation.w}, {faceRotation.x}, {faceRotation.y}, {faceRotation.z},";
+                foreach (var v in arFace.vertices)
+                {
+                    verticesString += $"{v.x}, {v.y}, {v.z},";
+                }
+
+                LogFile.Log("BCV", verticesString);
 
                 if (currentExercise == ExerciseType.kSmile)
                 {
@@ -79,7 +90,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
                 Debug.Log($"Processing {currentExercise} exercise");
                 var muscleLandmarks = MuscleTriangles.exerciseLandmarks[(int)currentExercise];
-                var muscleNames = MuscleTriangles.muscleNames[(int)currentExercise];
+                var muscleNames = MuscleTriangles.commonMuscleNames[(int)currentExercise];
 
                 float[] distances = new float[muscleLandmarks.Count];
                 float maxDistance = 0.0f;
@@ -109,11 +120,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 }
 
                 // muscleActivations[2].SetActivation(1.0f);
-                Debug.LogFormat($"Activations {distances[0]}, {distances[1]}, {distances[2]}, {distances[3]}, {distances[4]} ", tag = "IntARFace");
-            }
-            else
-            {
-                Debug.LogFormat("ARFace is null", tag = "IntARFace");
+                // Debug.LogFormat($"Activations {distances[0]}, {distances[1]}, {distances[2]}, {distances[3]}, {distances[4]} ", tag = "IntARFace");
+                var actString = "";
+                foreach (var act in distances)
+                {
+                    actString += $"{act},";
+                }
+                LogFile.Log("BCAct", actString);
             }
         }
         // Update is called once per frame

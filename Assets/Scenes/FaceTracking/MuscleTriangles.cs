@@ -11,10 +11,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
         kEyebrowRaise = 1,
         kReverseFrown = 2
     }
-    public class MuscleTriangles
+    public static class MuscleTriangles
     {
 
-        public static int[] FrontalisRight = new int[] {
+        public static readonly int[] FrontalisRight = new int[] {
                                                54, 103, 68,
                                               68, 103, 104,
                                                63, 68, 104,
@@ -31,7 +31,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                                              108, 10,  151,
                                              107, 108, 151,
                                                107, 151, 9};
-        public static int[] FrontalisLeft = new int[] {
+        public static readonly int[] FrontalisLeft = new int[] {
                                               151, 10, 337,
                                               337, 10, 338,
                                                9, 151, 336,
@@ -48,17 +48,17 @@ namespace UnityEngine.XR.ARFoundation.Samples
                                              293, 333, 298,
                                              298, 333, 332,
                                              298, 332, 284};
-        public static int[] CorrugatorSupercilliRight = new int[] {
+        public static readonly int[] CorrugatorSupercilliRight = new int[] {
                                     65, 66, 107,
                                     65, 107, 55,
                                     65, 55, 222};
-        public static int[] CorrugatorSupercilliLeft = new int[] {
+        public static readonly int[] CorrugatorSupercilliLeft = new int[] {
                                   295, 336, 296,
                                   295, 285, 336,
                                   442, 285, 295
         };
 
-        public static int[] ZygoMinorRight = new int[] {
+        public static readonly int[] ZygoMinorRight = new int[] {
              116, 34, 143,
             116, 143, 111,
              50, 116, 111,
@@ -70,7 +70,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
               165, 36, 98};
         //   [143, 111, 117,  36,  98, 165, 206, 205,  50, 116,  34, 143], // 10 Zygomaticus minor
         //   [327, 391, 426, 425, 280, 345, 356, 372, 340, 346, 327], // 10
-        public static int[] ZygoMinorLeft = new int[] {
+        public static readonly int[] ZygoMinorLeft = new int[] {
             391, 327, 426,
             426, 327, 266,
             426, 266, 425,
@@ -82,7 +82,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             345, 372, 264
         };
 
-        public static int[] ZygoMajorRight = new int[] {
+        public static readonly int[] ZygoMajorRight = new int[] {
     //   [322, 410, 436, 352, 454, 447, 345, 280, 425, 426, 322], // 11
     //   [92, 186, 216, 123, 234, 227, 116, 50, 205, 206, 92], // 11 Zygo major
             186, 216, 92,
@@ -92,7 +92,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             216, 116, 50,
             216, 123, 116,
             123, 234, 116};
-        public static int[] ZygoMajorLeft = new int[]{
+        public static readonly int[] ZygoMajorLeft = new int[]{
             410, 322, 436,
             436, 322, 425,
             436, 425, 352,
@@ -102,7 +102,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             352, 447, 454
         };
 
-        public static int[] OrbOrisLeft = new int[] {
+        public static readonly int[] OrbOrisLeft = new int[] {
                   0, 164, 267,
                 267, 164, 393,
                 267, 393, 269,
@@ -124,7 +124,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 313, 314,  18,
                  18, 314,  17,
                 313, 421, 200};
-        public static int[] OrbOrisRight = new int[] {
+        public static readonly int[] OrbOrisRight = new int[] {
                 // right
                  37,  0, 164,
                  37, 167, 164,
@@ -148,29 +148,29 @@ namespace UnityEngine.XR.ARFoundation.Samples
                  18,  84,  17
 
         }; // lips
-        public static int[] ProcerusRight = new int[] {
+        public static readonly int[] ProcerusRight = new int[] {
                 55, 107,   9,
                 55,   9,   8,
                193,  55,   8};
-        public static int[] ProcerusLeft = new int[] {
+        public static readonly int[] ProcerusLeft = new int[] {
                285,   9, 336,
                  8,   9, 285,
                  8, 285, 417
         };
 
-        public static int[] DepressorSuperLeft = new int[] {
+        public static readonly int[] DepressorSuperLeft = new int[] {
             417, 285, 441,
             417, 441, 413,
             413, 441, 286,
             413, 286, 414};
-        public static int[] DepressorSuperRight = new int[] {
+        public static readonly int[] DepressorSuperRight = new int[] {
             221,  55, 193,
             221, 193, 189,
              56, 221, 189,
              56, 189, 190
         };
 
-        public static int[] OrbiOculiLeft = new int[] { // super lateral
+        public static readonly int[] OrbiOculiLeft = new int[] { // super lateral
             441, 285, 442,
             286, 441, 442,
             286, 442, 258,
@@ -199,7 +199,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             282, 296, 334
         };
 
-        public static int[] NasalisRight = new int[] {
+        public static readonly int[] NasalisRight = new int[] {
     //   [122, 196, 3, 236, 174, 188, 122], // 7 Nasalis
     //   [351, 419, 248, 456, 399, 412, 351], // 7
             196, 188, 122,
@@ -207,14 +207,14 @@ namespace UnityEngine.XR.ARFoundation.Samples
             236, 174, 196,
             236, 196, 3
         };
-        public static int[] NasalisLeft = new int[] {
+        public static readonly int[] NasalisLeft = new int[] {
             419, 351, 412,
             419, 412, 399,
             248, 419, 456,
             456, 419, 399
         };
 
-        public static int[] LevatorLabiiLeft = new int[] {
+        public static readonly int[] LevatorLabiiLeft = new int[] {
     //   [357, 350, 277, 355, 429, 420, 437, 343, 357],
     //   [128, 121, 47, 126, 209, 198, 217, 114, 128], // 8 Levator labii
             343, 357, 350,
@@ -224,7 +224,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             420, 437, 355,
             429, 420, 355
         };
-        public static int[] LevatorLabiiRight = new int[] {
+        public static readonly int[] LevatorLabiiRight = new int[] {
             121, 128, 114,
              47, 121, 114,
              47, 114, 217,
@@ -233,7 +233,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             209, 126, 198
         };
 
-        public static int[] LevatorLabii2Right = new int[] {
+        public static readonly int[] LevatorLabii2Right = new int[] {
     //   [119, 101, 36, 142, 100, 120, 119], // 9 Levator labii - 2
     //   [349, 329, 371, 266, 330, 348, 349], // 9
             119, 120, 100,
@@ -241,14 +241,14 @@ namespace UnityEngine.XR.ARFoundation.Samples
              36, 101, 100,
              36, 100, 142
          };
-        public static int[] LevatorLabii2Left = new int[] {
+        public static readonly int[] LevatorLabii2Left = new int[] {
             329, 349, 348,
             329, 348, 330,
             266, 371, 329,
             266, 329, 330,
         };
 
-        public static int[] BuccinatorLeft = new int[] {
+        public static readonly int[] BuccinatorLeft = new int[] {
     //   [186, 216, 123, 147, 192, 212, 57, 186], // 13 Buccinator
     //   [410, 287, 432, 416, 376, 352, 436, 410], // 13
             287, 410, 432,
@@ -257,7 +257,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             416, 436, 376,
             436, 352, 376};
 
-        public static int[] BuccinatorRight = new int[] {
+        public static readonly int[] BuccinatorRight = new int[] {
             212, 186, 57,
             212, 216, 186,
             192, 216, 212,
@@ -265,7 +265,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             147, 123, 216
         };
 
-        public static int[] RisoriusRight = new int[] {
+        public static readonly int[] RisoriusRight = new int[] {
     //   [212, 192, 215, 214, 58, 172, 136, 150, 214, 212], // 14 Risorius
     //   [416, 435, 434, 288, 397, 365, 379, 434, 432, 416], // 14
             214, 192, 212,
@@ -278,7 +278,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             136, 138, 135,
             150, 136, 135,
             150, 135, 214};
-        public static int[] RisoriusLeft = new int[] {
+        public static readonly int[] RisoriusLeft = new int[] {
 
             434, 432, 416,
             379, 434, 364,
@@ -291,7 +291,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             397, 367, 435,
             397, 435, 288
         };
-        public static int[] DepressorAnguliRight = new int[] {
+        public static readonly int[] DepressorAnguliRight = new int[] {
             212,  57,  43,
             212,  43, 202,
             150, 212, 202,
@@ -307,7 +307,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         //   [57, 212, 214, 150, 149, 176, 170, 57], // 16 Depressor anguli oris
         //   [287, 432, 434, 379, 378, 400, 395, 287], // 16
 
-        public static int[] DepressorAnguliLeft = new int[] {
+        public static readonly int[] DepressorAnguliLeft = new int[] {
             273, 287, 432,
             273, 432, 422,
             431, 273, 422,
@@ -321,7 +321,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             378, 394, 379
         };
 
-        public static int[] MentalisRight = new int[] {
+        public static readonly int[] MentalisRight = new int[] {
             201,  83, 182,
             201, 182, 194,
             208, 201,  32,
@@ -334,7 +334,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
              32, 182, 211
         };
 
-        public static int[] MentalisLeft = new int[] {
+        public static readonly int[] MentalisLeft = new int[] {
             421, 313, 406,
             421, 406, 418,
             428, 421, 262,
@@ -348,47 +348,71 @@ namespace UnityEngine.XR.ARFoundation.Samples
         };
         //   [83, 182, 170, 176, 148, 171, 208, 201, 83]];
         //   [313, 421, 428, 396, 377, 400, 395, 406, 313] // 18
-        public static int[] FrontalisLeftLandmarks = new HashSet<int>(FrontalisLeft).ToArray();
-        public static int[] FrontalisRightLandmarks = new HashSet<int>(FrontalisRight).ToArray();
-        public static int[] ZygoMajorLeftLandmarks = new HashSet<int>(ZygoMajorLeft).ToArray();
-        public static int[] ZygoMajorRightLandmarks = new HashSet<int>(ZygoMajorRight).ToArray();
-        public static int[] ZygoMinorLeftLandmarks = new HashSet<int>(ZygoMinorLeft).ToArray();
-        public static int[] ZygoMinorRightLandmarks = new HashSet<int>(ZygoMinorRight).ToArray();
-        public static int[] ProcerusLeftLandmarks = new HashSet<int>(ProcerusLeft).ToArray();
-        public static int[] ProcerusRightLandmarks = new HashSet<int>(ProcerusRight).ToArray();
-        public static int[] OrbiOculiLeftLandmarks = new HashSet<int>(OrbiOculiLeft).ToArray();
-        // public static int[] OrbiOculiRightLandmarks = new HashSet<int>(OrbiOculiRight).ToArray();
-        public static int[] CorrugatorSupercilliLeftLandmarks = new HashSet<int>(CorrugatorSupercilliLeft).ToArray();
-        public static int[] CorrugatorSupercilliRightLandmarks = new HashSet<int>(CorrugatorSupercilliRight).ToArray();
-        public static int[] RisoriusLeftLandmarks = new HashSet<int>(RisoriusLeft).ToArray();
-        public static int[] RisoriusRightLandmarks = new HashSet<int>(RisoriusRight).ToArray();
-        public static int[] LevatorLabii2LeftLandmarks = new HashSet<int>(LevatorLabii2Left).ToArray();
-        public static int[] LevatorLabii2RightLandmarks = new HashSet<int>(LevatorLabii2Right).ToArray();
-        public static int[] LevatorLabiiLeftLandmarks = new HashSet<int>(LevatorLabiiLeft).ToArray();
-        public static int[] LevatorLabiiRightLandmarks = new HashSet<int>(LevatorLabiiRight).ToArray();
-        public static int[] MentalisLeftLandmarks = new HashSet<int>(MentalisLeft).ToArray();
-        public static int[] MentalisRightLandmarks = new HashSet<int>(MentalisRight).ToArray();
-        public static int[] DepressorSuperLeftLandmarks = new HashSet<int>(DepressorSuperLeft).ToArray();
-        public static int[] DepressorSuperRightLandmarks = new HashSet<int>(DepressorSuperRight).ToArray();
+        public static readonly int[] FrontalisLeftLandmarks = new HashSet<int>(FrontalisLeft).ToArray();
+        public static readonly int[] FrontalisRightLandmarks = new HashSet<int>(FrontalisRight).ToArray();
+        public static readonly int[] ZygoMajorLeftLandmarks = new HashSet<int>(ZygoMajorLeft).ToArray();
+        public static readonly int[] ZygoMajorRightLandmarks = new HashSet<int>(ZygoMajorRight).ToArray();
+        public static readonly int[] ZygoMinorLeftLandmarks = new HashSet<int>(ZygoMinorLeft).ToArray();
+        public static readonly int[] ZygoMinorRightLandmarks = new HashSet<int>(ZygoMinorRight).ToArray();
+        public static readonly int[] ProcerusLeftLandmarks = new HashSet<int>(ProcerusLeft).ToArray();
+        public static readonly int[] ProcerusRightLandmarks = new HashSet<int>(ProcerusRight).ToArray();
+        public static readonly int[] OrbiOculiLeftLandmarks = new HashSet<int>(OrbiOculiLeft).ToArray();
+        // public static readonly int[] OrbiOculiRightLandmarks = new HashSet<int>(OrbiOculiRight).ToArray();
+        public static readonly int[] CorrugatorSupercilliLeftLandmarks = new HashSet<int>(CorrugatorSupercilliLeft).ToArray();
+        public static readonly int[] CorrugatorSupercilliRightLandmarks = new HashSet<int>(CorrugatorSupercilliRight).ToArray();
+        public static readonly int[] RisoriusLeftLandmarks = new HashSet<int>(RisoriusLeft).ToArray();
+        public static readonly int[] RisoriusRightLandmarks = new HashSet<int>(RisoriusRight).ToArray();
+        public static readonly int[] LevatorLabii2LeftLandmarks = new HashSet<int>(LevatorLabii2Left).ToArray();
+        public static readonly int[] LevatorLabii2RightLandmarks = new HashSet<int>(LevatorLabii2Right).ToArray();
+        public static readonly int[] LevatorLabiiLeftLandmarks = new HashSet<int>(LevatorLabiiLeft).ToArray();
+        public static readonly int[] LevatorLabiiRightLandmarks = new HashSet<int>(LevatorLabiiRight).ToArray();
+        public static readonly int[] MentalisLeftLandmarks = new HashSet<int>(MentalisLeft).ToArray();
+        public static readonly int[] MentalisRightLandmarks = new HashSet<int>(MentalisRight).ToArray();
+        public static readonly int[] DepressorSuperLeftLandmarks = new HashSet<int>(DepressorSuperLeft).ToArray();
+        public static readonly int[] DepressorSuperRightLandmarks = new HashSet<int>(DepressorSuperRight).ToArray();
 
-        public static List<List<int[]>> exerciseMusclesArray = new List<List<int[]>> {
+        public static readonly List<List<int[]>> exerciseMusclesArray = new List<List<int[]>> {
         new List<int[]> {ZygoMajorLeft, ZygoMinorLeft, OrbiOculiLeft, RisoriusLeft, LevatorLabii2Left},
         new List<int[]> {FrontalisLeft, ProcerusLeft, OrbiOculiLeft, CorrugatorSupercilliLeft, LevatorLabiiLeft},
         new List<int[]> {CorrugatorSupercilliLeft, DepressorSuperLeft, ZygoMajorLeft, FrontalisLeft, MentalisLeft}};
 
-        public static List<List<int[]>> exerciseLandmarks = new List<List<int[]>> {
+        public static readonly List<List<int[]>> exerciseLandmarks = new List<List<int[]>> {
             new List<int[]>{ZygoMajorLeftLandmarks, ZygoMinorLeftLandmarks,
                                             OrbiOculiLeftLandmarks, RisoriusLeftLandmarks, LevatorLabii2LeftLandmarks},
             new List<int[]> {FrontalisLeftLandmarks, ProcerusLeftLandmarks, OrbiOculiLeftLandmarks, CorrugatorSupercilliLeftLandmarks, LevatorLabiiLeftLandmarks},
             new List<int[]> {CorrugatorSupercilliLeftLandmarks, DepressorSuperLeftLandmarks, ZygoMajorLeftLandmarks, FrontalisLeftLandmarks, MentalisLeftLandmarks}
         };
 
-        public static List<string[]> muscleNames = new List<string[]> {
+        public static readonly List<string[]> muscleNames = new List<string[]> {
             new string[] {"ZygoMajor", "ZygoMinor", "OrbiOculi", "Risorius", "LevatorLabii2"},
             new string[] {"Frontalis", "Procerus", "OrbiOculi", "CorrSuper", "LevatorLabii"},
             new string[] {"CorrSuper", "DepSuper", "ZygoMajor", "Frontalis", "Mentalis"}
         };
+
+        public static readonly List<string[]> commonMuscleNames = new List<string[]> {
+            new string[] {"Cheek to mouth", "Cheek to upper lip", "Inner brow", "Cheek to lip", "Above upper lip"},
+            new string[] {"Forehead", "Nasal Bridge", "Inner brow", "Outer brow", "Side of nose"},
+            new string[] {"Outer brow", "Brow Edge", "Cheek to mouth", "Forehead", "Chin"}
+        };
+
     }
+
+
+    //   Muscle(id: 0, name: 'Forehead', technicalName: 'Frontalis'),
+    //   Muscle(id: 1, name: 'Outer brow', technicalName: 'Corrugator supercilli'),
+    //   Muscle(id: 2, name: 'Nasal Bridge', technicalName: 'Procerus'),
+    //   Muscle(id: 3, name: 'Brow edge', technicalName: 'Depressor supercilli'),
+    //   Muscle(id: 4, name: 'Brow', technicalName: 'Orbicularis oculi (superior)'),
+    //   Muscle(id: 5, name: 'Inner brow', technicalName: 'Orbicularis oculi'),
+    //   Muscle(id: 6, name: 'Nose', technicalName: 'Nasalis'),
+    //   Muscle(id: 7, name: 'Side of nose', technicalName: 'Levator labii - 1'),
+    //   Muscle(id: 8, name: 'Above upper lip', technicalName: 'Levator labii - 2'),
+    //   Muscle(id: 9, name: 'Cheek to upper lip', technicalName: 'Zygomaticus minor'),
+    //   Muscle(id: 10, name: 'Cheek to mouth', technicalName: 'Zygomaticus major'),
+    //   Muscle(id: 11, name: 'Lip', technicalName: 'Orbicularis oris'),
+    //   Muscle(id: 12, name: 'Cheek', technicalName: 'Buccinator'),
+    //   Muscle(id: 13, name: 'Cheek to lip', technicalName: 'Risorius'),
+    //   Muscle(id: 14, name: 'Jaw', technicalName: 'Masseter'),
 
     // List<int> otherVertices = Enumerable.Range(1, 468).ToList();
 

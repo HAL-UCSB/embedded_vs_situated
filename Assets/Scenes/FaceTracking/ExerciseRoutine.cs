@@ -24,10 +24,12 @@ namespace UnityEngine.XR.ARFoundation.Samples
         private bool timerRunning = false;
 
         List<ExerciseType> exerciseTypes = new List<ExerciseType> { ExerciseType.kSmile, ExerciseType.kEyebrowRaise, ExerciseType.kReverseFrown };
-        List<string> exercises = new List<string> { "Smile", "Eyebrow Raise", "Reverse Frown" };
+        List<string> exercises = new List<string> { "smile", "raise eyebrows", "frown" };
 
         private int numRepetitions;
         private int numRep;
+
+        AudioSource audioSource;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -36,7 +38,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
             nextExercisePhase = ExercisePhase.Start;
             numRepetitions = exercises.Count * 2;
             numRep = 0;
+            audioSource = GetComponent<AudioSource>();
+
             Assert.IsNotNull(timerText);
+            Assert.IsNotNull(audioSource);
         }
 
         // Update is called once per frame
@@ -66,7 +71,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                         if (nextExercisePhase != exercisePhase)
                         {
                             // instructionText.text = $"Perform {exercises[numRep % exercises.Count]} exercise";
-                            instructionText = $"Perform {exercises[numRep % exercises.Count]} exercise for ";
+                            instructionText = $"Please {exercises[numRep % exercises.Count]} for ";
                             exercisePhase = ExercisePhase.Exercise;
                             StartCoroutine(CountdownTimer(10));
                         }
@@ -92,6 +97,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         }
         IEnumerator CountdownTimer(float startTime)
         {
+            audioSource.Play();
             var currentTime = startTime;
             timerRunning = true;
             while (currentTime > 0)

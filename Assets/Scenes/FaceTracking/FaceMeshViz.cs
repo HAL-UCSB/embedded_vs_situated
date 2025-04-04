@@ -19,7 +19,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
         /// </summary>
         public Mesh mesh { get; private set; }
         public List<Material> activationMaterials = new List<Material>();
-        // public ExerciseRoutine exerciseRoutine;
         public GameObject exerciseRoutinePrefab;
         // Material[] activationMaterials;
         void SetVisible(bool visible)
@@ -84,7 +83,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 var currDist = (currentPos - baselinePos).magnitude;
                 var maxDist = (exercisePos - baselinePos).magnitude;
                 var activation = currDist / maxDist;
-                if (activation < 0.3)
+                if (activation < 0.4)
                 {
                     activations[i] = 0;
                 }
@@ -97,6 +96,12 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     activations[i] = 1;
                 }
             }
+            var actString = "";
+            foreach (var act in activations)
+            {
+                actString += $"{act},";
+            }
+            LogFile.Log("FAct", actString);
             return activations;
         }
 
@@ -107,6 +112,17 @@ namespace UnityEngine.XR.ARFoundation.Samples
             {
                 return;
             }
+            var verticesString = "";
+            var faceRotation = m_Face.pose.rotation;
+            var facePosition = m_Face.pose.position;
+            verticesString += $"{facePosition.x}, {facePosition.y}, {facePosition.z},";
+            verticesString += $"{faceRotation.w}, {faceRotation.x}, {faceRotation.y}, {faceRotation.z},";
+            foreach (var v in m_Face.vertices)
+            {
+                verticesString += $"{v.x}, {v.y}, {v.z},";
+            }
+
+            LogFile.Log("FV", verticesString);
             // using the vertices from m_Face; set topology of different regions then set separate materials
             mesh.Clear();
             if (m_Face.vertices.Length > 0 && m_Face.indices.Length > 0)
@@ -230,15 +246,12 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         void Start()
         {
-            GameObject gameObj = null;
             if (exerciseRoutinePrefab != null)
             {
-                gameObj = Instantiate(exerciseRoutinePrefab);
+                exerciseRoutineGameObj = Instantiate(exerciseRoutinePrefab);
             }
-            if (gameObj != null)
-            {
-                exerciseRoutine = gameObj.GetComponent<ExerciseRoutine>();
-            }
+            Assert.IsNotNull(exerciseRoutineGameObj);
+            exerciseRoutine = exerciseRoutineGameObj.GetComponent<ExerciseRoutine>();
             Assert.IsNotNull(exerciseRoutine, "Routine is null");
             exercisePhase = exerciseRoutine.currentExercisePhase();
             exerciseType = exerciseRoutine.currentExercise();
@@ -283,6 +296,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         MeshRenderer m_MeshRenderer;
         bool m_TopologyUpdatedThisFrame;
         LandmarkMovingAverageFilter landmarkMovingAverageFilter;
+        GameObject exerciseRoutineGameObj;
         ExerciseRoutine exerciseRoutine;
         ExercisePhase exercisePhase;
         ExerciseType exerciseType;
