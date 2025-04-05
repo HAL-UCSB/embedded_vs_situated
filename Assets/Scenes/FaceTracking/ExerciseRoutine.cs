@@ -24,10 +24,21 @@ namespace UnityEngine.XR.ARFoundation.Samples
         private bool timerRunning = false;
 
         List<ExerciseType> exerciseTypes = new List<ExerciseType> { ExerciseType.kSmile, ExerciseType.kEyebrowRaise, ExerciseType.kReverseFrown };
-        List<string> exercises = new List<string> { "smile", "raise eyebrows", "frown" };
+        // List<string> exercises = new List<string> { "smile", "raise eyebrows", "frown" };
+
+        List<List<string>> exercisePermutation = new List<List<string>> {
+            new List<string> { "smile", "raise eyebrows", "frown"},
+            new List<string> { "smile", "frown", "raise eyebrows"},
+            new List<string> { "raise eyebrows", "smile", "frown"},
+            new List<string> { "raise eyebrows", "frown", "smile"},
+            new List<string> { "frown", "smile", "raise eyebrows"},
+            new List<string> { "frown", "raise eyebrows", "smile"},
+        };
 
         private int numRepetitions;
-        private int numRep;
+        private int numExercises;
+        private int currRep;
+        private int currExercise;
 
         AudioSource audioSource;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -36,8 +47,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
             // Debug.Log("In ER Start");
             exercisePhase = ExercisePhase.Start;
             nextExercisePhase = ExercisePhase.Start;
-            numRepetitions = exercises.Count * 2;
-            numRep = 0;
+            numRepetitions = 6; //exercises.Count * 2;
+            numExercises = 3;
+            currRep = 1;
+            currExercise = 0;
             audioSource = GetComponent<AudioSource>();
 
             Assert.IsNotNull(timerText);
@@ -47,14 +60,14 @@ namespace UnityEngine.XR.ARFoundation.Samples
         // Update is called once per frame
         void Update()
         {
-            // Debug.Log("In ER update");
+            Debug.Log($"Current status : {currRep}, {currExercise}");
             if (!timerRunning)
             {
                 switch (nextExercisePhase)
                 {
                     case ExercisePhase.Start:
                         // instructionText = "Get ready";
-                        instructionText = "Get ready to exercise in ";
+                        instructionText = $"Get ready to {exercisePermutation[currRep - 1][currExercise]} in ";
                         nextExercisePhase = ExercisePhase.Exercise;
                         StartCoroutine(CountdownTimer(10));
                         break;
@@ -71,7 +84,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                         if (nextExercisePhase != exercisePhase)
                         {
                             // instructionText.text = $"Perform {exercises[numRep % exercises.Count]} exercise";
-                            instructionText = $"Please {exercises[numRep % exercises.Count]} for ";
+                            instructionText = $"Please {exercisePermutation[currRep - 1][currExercise]} for ";
                             exercisePhase = ExercisePhase.Exercise;
                             StartCoroutine(CountdownTimer(10));
                         }
@@ -89,7 +102,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         }
         public ExerciseType currentExercise()
         {
-            return exerciseTypes[numRep % exercises.Count];
+            return exerciseTypes[currExercise];
         }
         public ExercisePhase currentExercisePhase()
         {
@@ -126,8 +139,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
             timerRunning = false;
             if (exercisePhase == ExercisePhase.Exercise)
             { // check if all exercises are done
-                numRep++;
-                nextExercisePhase = numRep < numRepetitions ? ExercisePhase.Break : ExercisePhase.End;
+                currExercise++;
+                if (currExercise == numExercises)
+                {
+                    currExercise = 0;
+                    currRep++;
+                }
+                nextExercisePhase = currRep <= numRepetitions ? ExercisePhase.Break : ExercisePhase.End;
             }
             else if (exercisePhase == ExercisePhase.Break)
             {
