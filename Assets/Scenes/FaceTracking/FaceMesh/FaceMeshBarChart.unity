@@ -508,7 +508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.07058824}
+  m_Color: {r: 0.3584906, g: 0.33312568, b: 0.33312568, a: 0.5019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -569,6 +569,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MuscleActivationLevel (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919970460961512448, guid: f4a389575712a45458f99603ac66aa88,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
@@ -648,7 +653,7 @@ PrefabInstance:
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -350
+      value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
@@ -693,6 +698,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MuscleActivationLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919970460961512448, guid: f4a389575712a45458f99603ac66aa88,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 2980706916322683615, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
@@ -782,7 +792,7 @@ PrefabInstance:
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -350
+      value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
@@ -939,9 +949,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: MuscleActivationLevel (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1919970460961512448, guid: f4a389575712a45458f99603ac66aa88,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919970460961512448, guid: f4a389575712a45458f99603ac66aa88,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -200
+      objectReference: {fileID: 0}
     - target: {fileID: 2980706916322683615, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
       propertyPath: m_FillAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545600019715961531, guid: f4a389575712a45458f99603ac66aa88,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
@@ -1022,7 +1047,7 @@ PrefabInstance:
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -350
+      value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
@@ -1043,6 +1068,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4532539528559227375, guid: f4a389575712a45458f99603ac66aa88,
+        type: 3}
+      propertyPath: m_text
+      value: Cheeks
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1156,6 +1186,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MuscleActivationLevel (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1919970460961512448, guid: f4a389575712a45458f99603ac66aa88,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 160
+      objectReference: {fileID: 0}
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1234,7 +1269,7 @@ PrefabInstance:
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -350
+      value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
@@ -1341,6 +1376,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ExerciseRoutine2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401733527552512665, guid: b8d37caac5046c34b91ccc9943ebdfbe,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.41509432
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401733527552512665, guid: b8d37caac5046c34b91ccc9943ebdfbe,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.41509432
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401733527552512665, guid: b8d37caac5046c34b91ccc9943ebdfbe,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.41509432
       objectReference: {fileID: 0}
     - target: {fileID: 8957531964530182443, guid: b8d37caac5046c34b91ccc9943ebdfbe,
         type: 3}
@@ -1982,6 +2032,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MuscleActivationLevel (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1919970460961512448, guid: f4a389575712a45458f99603ac66aa88,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 160
+      objectReference: {fileID: 0}
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2060,7 +2115,7 @@ PrefabInstance:
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -350
+      value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 4064237680754048127, guid: f4a389575712a45458f99603ac66aa88,
         type: 3}

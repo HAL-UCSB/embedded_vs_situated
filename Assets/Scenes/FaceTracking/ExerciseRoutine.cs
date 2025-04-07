@@ -26,6 +26,14 @@ namespace UnityEngine.XR.ARFoundation.Samples
         List<ExerciseType> exerciseTypes = new List<ExerciseType> { ExerciseType.kSmile, ExerciseType.kEyebrowRaise, ExerciseType.kReverseFrown };
         // List<string> exercises = new List<string> { "smile", "raise eyebrows", "frown" };
 
+        List<List<ExerciseType>> exerciseTypesPermutation = new List<List<ExerciseType>>{
+            new List<ExerciseType> { ExerciseType.kSmile, ExerciseType.kEyebrowRaise, ExerciseType.kReverseFrown},
+            new List<ExerciseType> { ExerciseType.kSmile, ExerciseType.kReverseFrown, ExerciseType.kEyebrowRaise},
+            new List<ExerciseType> { ExerciseType.kEyebrowRaise, ExerciseType.kSmile, ExerciseType.kReverseFrown},
+            new List<ExerciseType> { ExerciseType.kEyebrowRaise, ExerciseType.kReverseFrown, ExerciseType.kSmile},
+            new List<ExerciseType> { ExerciseType.kReverseFrown, ExerciseType.kSmile, ExerciseType.kEyebrowRaise},
+            new List<ExerciseType> { ExerciseType.kReverseFrown, ExerciseType.kEyebrowRaise, ExerciseType.kSmile},
+        };
         List<List<string>> exercisePermutation = new List<List<string>> {
             new List<string> { "smile", "raise eyebrows", "frown"},
             new List<string> { "smile", "frown", "raise eyebrows"},
@@ -102,7 +110,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
         }
         public ExerciseType currentExercise()
         {
-            return exerciseTypes[currExercise];
+            // return exerciseTypes[currExercise];
+            return exerciseTypesPermutation[currRep - 1][currExercise];
         }
         public ExercisePhase currentExercisePhase()
         {
