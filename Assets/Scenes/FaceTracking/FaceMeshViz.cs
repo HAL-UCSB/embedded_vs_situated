@@ -37,7 +37,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             m_MeshRenderer.enabled = visible;
         }
-        int[] ComputeMuscleActivation(Vector3[] faceLandmarks, Quaternion faceRotation)
+        // int[] ComputeMuscleActivation(Vector3[] faceLandmarks, Quaternion faceRotation)
+        float[] ComputeMuscleActivation(Vector3[] faceLandmarks, Quaternion faceRotation)
         {
             var baseline = CalibrationLandmarks.baselineLandmarks;
             // var faceInverseRotation = Quaternion.Inverse(faceRotation);
@@ -66,7 +67,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             Assert.IsNotNull(exercise, "Invalid exercise");
             var muscleLandmarks = MuscleTriangles.exerciseLandmarks[(int)exerciseType];
-            int[] activations = new int[muscleLandmarks.Count];
+            // int[] activations = new int[muscleLandmarks.Count];
+            float[] activations = new float[muscleLandmarks.Count];
 
             for (int i = 0; i < muscleLandmarks.Count; i++)
             {
@@ -82,19 +84,20 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 }
                 var currDist = (currentPos - baselinePos).magnitude;
                 var maxDist = (exercisePos - baselinePos).magnitude;
-                var activation = currDist / maxDist;
-                if (activation < 0.4)
-                {
-                    activations[i] = 0;
-                }
-                else if (activation > 0.7)
-                {
-                    activations[i] = 2;
-                }
-                else
-                {
-                    activations[i] = 1;
-                }
+                activations[i] = currDist / maxDist;
+                // var activation = currDist / maxDist;
+                // if (activation < 0.4)
+                // {
+                //     activations[i] = 0;
+                // }
+                // else if (activation > 0.7)
+                // {
+                //     activations[i] = 2;
+                // }
+                // else
+                // {
+                //     activations[i] = 1;
+                // }
             }
             var actString = "";
             foreach (var act in activations)
@@ -154,12 +157,28 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 }
 
                 // set materials based on activation levels
-                var activationIdx = ComputeMuscleActivation(m_Face.vertices.ToArray(),
+                var activations = ComputeMuscleActivation(m_Face.vertices.ToArray(),
                                                             m_Face.pose.rotation);
                 Material[] materials = new Material[mesh.subMeshCount];
                 for (int i = 0; i < mesh.subMeshCount; i++)
                 {
-                    materials[i] = activationMaterials[activationIdx[i]];
+                    var activationIdx = 1;
+                    if (activations[i] < 0.4)
+                    {
+                        activationIdx = 0;
+                    }
+                    else if (activations[i] > 0.7)
+                    {
+                        activationIdx = 2;
+                    }
+                    // else
+                    // {
+                    //     activations[i] = 1;
+                    // }
+                    // materials[i] = activationMaterials[activationIdx[i]];
+                    materials[i] = activationMaterials[activationIdx];
+                    var fillAmountId = Shader.PropertyToID("_FillAmount");
+                    materials[i].SetFloat(fillAmountId, activations[i]);
                 }
                 m_MeshRenderer.materials = materials;
                 // StringBuilder sb = new StringBuilder();

@@ -21,7 +21,12 @@ public class SceneSwitcher : MonoBehaviour
 
     public void SelfieScene()
     {
-        SceneManager.LoadScene("FaceMesh");
+        SceneManager.LoadScene("FaceMeshSelfie");
+    }
+
+    public void BaselineScene()
+    {
+        SceneManager.LoadScene("FaceMeshBaseline");
     }
     // Update is called once per frame
     void Update()

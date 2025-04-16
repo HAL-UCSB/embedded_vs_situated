@@ -963,6 +963,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.XR.ARFoundation.Samples.Back, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 8940933253108231494, guid: 640898324b7153a46a46dc72c2c5c8e2,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8940933253108231494, guid: 640898324b7153a46a46dc72c2c5c8e2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

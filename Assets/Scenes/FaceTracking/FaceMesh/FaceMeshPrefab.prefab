@@ -144,9 +144,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activationMaterials:
-  - {fileID: 2100000, guid: 9dff5f71762954c40b20880d263a96e1, type: 2}
-  - {fileID: 2100000, guid: 2ab6dd617faffd4439226129c4607b17, type: 2}
-  - {fileID: 2100000, guid: b5ef056c92f8b214e820a04ee6180409, type: 2}
+  - {fileID: 2100000, guid: a4813f2f09395a942bc61a6aa32a446e, type: 2}
+  - {fileID: 2100000, guid: 11d39b883497c51458aaba2ffb8612f8, type: 2}
+  - {fileID: 2100000, guid: cba0d6fe6d772954095f02d53555b067, type: 2}
   exerciseRoutinePrefab: {fileID: 4451334289873667433, guid: b8d37caac5046c34b91ccc9943ebdfbe,
     type: 3}
 --- !u!64 &7529478533492302473
