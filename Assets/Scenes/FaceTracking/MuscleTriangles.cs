@@ -395,6 +395,9 @@ namespace UnityEngine.XR.ARFoundation.Samples
             new string[] {"Outer brow", "Brow Edge", "Cheek to mouth", "Forehead", "Chin"}
         };
 
+        public static readonly HashSet<string> horMuscles = new HashSet<string> { "Forehead", "Outer brow", "Brow Edge" };
+        // public static readonly HashSet<string> verMuscles = new HashSet<string> {"Cheek to mouth", "Cheek to upper lip", "Inner brow", "Cheek to lip",
+        //                                                                          "Above upper lip", "Nasal Bridge", "Side of nose", "Chin"};
     }
 
 
