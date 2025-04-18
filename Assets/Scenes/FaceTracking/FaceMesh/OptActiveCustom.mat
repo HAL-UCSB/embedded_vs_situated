@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: OptActiveCustom
-  m_Shader: {fileID: 4800000, guid: a65ed97a9582f184ca5b64d0248ebd3e, type: 3}
+  m_Shader: {fileID: 4800000, guid: 0796b0d5f2c2db14d9c39cff351062c5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -112,6 +112,7 @@ Material:
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 0
     - _FillAmount: 0.5
+    - _FillDirection: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -126,7 +127,9 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
+    - _SubmeshUVMaxX: 1
     - _SubmeshUVMaxY: 1
+    - _SubmeshUVMinX: 0
     - _SubmeshUVMinY: 0
     - _Surface: 0
     - _UVSec: 0

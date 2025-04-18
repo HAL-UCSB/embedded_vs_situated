@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: OverActiveCustom
-  m_Shader: {fileID: 4800000, guid: 0b34cb87daecc7442b73527c776b005c, type: 3}
+  m_Shader: {fileID: 4800000, guid: 0796b0d5f2c2db14d9c39cff351062c5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -111,7 +111,8 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 0
-    - _FillAmount: 0.395
+    - _FillAmount: 0.25
+    - _FillDirection: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0

@@ -84,7 +84,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 }
                 var currDist = (currentPos - baselinePos).magnitude;
                 var maxDist = (exercisePos - baselinePos).magnitude;
-                activations[i] = currDist / maxDist;
+                activations[i] = Mathf.Min(currDist / maxDist, 1.0f);
                 // var activation = currDist / maxDist;
                 // if (activation < 0.4)
                 // {
@@ -98,6 +98,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 // {
                 //     activations[i] = 1;
                 // }
+
             }
             var actString = "";
             foreach (var act in activations)
@@ -159,6 +160,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
                 if (minmaxYs.Count == 0)
                 {
+                    Debug.Log("Setting minmax X and Y");
                     var uvs = m_Face.uvs;
                     for (var i = 0; i < muscles.Count; i++)
                     {
@@ -181,6 +183,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
                                 minmaxX[1] = Mathf.Max(minmaxX[1], uv.x);
                             }
                         }
+                        Debug.Log($"{i}, {MuscleTriangles.commonMuscleNames[(int)exerciseType][i]} : MinX {minmaxX[0]}, MaxX {minmaxX[1]}," +
+                               $"MinY {minmaxY[0]}, MaxY {minmaxY[1]}");
                         minmaxYs.Add(minmaxY);
                         minmaxXs.Add(minmaxX);
                     }
@@ -209,16 +213,21 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     materials[i] = activationMaterials[activationIdx];
                     var muscleName = MuscleTriangles.commonMuscleNames[(int)exerciseType][i];
 
-                    materials[i].shader = MuscleTriangles.horMuscles.Contains(muscleName) ? horShader : verShader;
-                    materials[i].SetFloat(subMeshMinYId, minmaxYs[i][0]);
-                    materials[i].SetFloat(subMeshMaxYId, minmaxYs[i][1]);
-                    materials[i].SetFloat(subMeshMinXId, minmaxXs[i][0]);
-                    materials[i].SetFloat(subMeshMaxXId, minmaxXs[i][1]);
-                    materials[i].SetFloat(fillAmountId, activations[i]);
+                    materials[i].SetFloat("_FillDirection", MuscleTriangles.horMuscles.Contains(muscleName) ? 1.0f : 0.0f);
+                    // // materials[i].SetFloat(subMeshMinYId, minmaxYs[i][0]);
+                    // // materials[i].SetFloat(subMeshMaxYId, minmaxYs[i][1]);
+                    // // materials[i].SetFloat(subMeshMinXId, minmaxXs[i][0]);
+                    // // materials[i].SetFloat(subMeshMaxXId, minmaxXs[i][1]);
+                    Debug.Log($"Minmax Ys {minmaxYs.Count}");
+                    materials[i].SetFloat("_SubMeshMinY", minmaxYs[i][0]);
+                    materials[i].SetFloat("_SubMeshMaxY", minmaxYs[i][1]);
+                    materials[i].SetFloat("_SubMeshMinX", minmaxXs[i][0]);
+                    materials[i].SetFloat("_SubMeshMaxX", minmaxXs[i][1]);
+                    materials[i].SetFloat("_FillAmount", activations[i]);
 
-                    Debug.Log($"{muscleName} : {materials[i].shader}, MinX {materials[i].GetFloat(subMeshMinXId)}, MaxX {materials[i].GetFloat(subMeshMaxXId)}," +
-                               $"MinY {materials[i].GetFloat(subMeshMinYId)}, MaxY {materials[i].GetFloat(subMeshMaxYId)}");
-                    Debug.Log($"{exerciseType} ; {muscleName} ; MinX {minmaxXs[i][0]}; MaxX {minmaxXs[i][1]}; MinY {minmaxYs[i][0]}; MaxY {minmaxYs[i][1]} {activations[i]}");
+                    // Debug.Log($"{muscleName} : MinX {materials[i].GetFloat("_SubMeshMinX")}, MaxX {materials[i].GetFloat("_SubMeshMaxX")}," +
+                    //            $"MinY {materials[i].GetFloat("_SubMeshMinY")}, MaxY {materials[i].GetFloat("_SubMeshMaxY")} ; FA {materials[i].GetFloat("_FillAmount")}");
+                    // Debug.Log($"{exerciseType} ; {muscleName} ; MinX {minmaxXs[i][0]}; MaxX {minmaxXs[i][1]}; MinY {minmaxYs[i][0]}; MaxY {minmaxYs[i][1]} {activations[i]}");
                 }
                 m_MeshRenderer.materials = materials;
                 // StringBuilder sb = new StringBuilder();
@@ -316,11 +325,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
             exerciseType = exerciseRoutine.currentExercise();
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-            verShader = Shader.Find("Custom/SegmentFaceMeshVer");
-            horShader = Shader.Find("Custom/SegmentFaceMeshHor");
-            Assert.IsNotNull(verShader, "Could not find shader");
-            Assert.IsNotNull(horShader, " Could not find hor shader");
             fillAmountId = Shader.PropertyToID("_FillAmount");
+            fillDirectionId = Shader.PropertyToID("_FillDirection");
             subMeshMinYId = Shader.PropertyToID("_SubmeshUVMinY");
             subMeshMaxYId = Shader.PropertyToID("_SubmeshUVMaxY");
             subMeshMinXId = Shader.PropertyToID("_SubmeshUVMinX");
@@ -375,10 +381,9 @@ namespace UnityEngine.XR.ARFoundation.Samples
         ExerciseType exerciseType;
         List<float[]> minmaxXs;
         List<float[]> minmaxYs;
-        Shader verShader;
-        Shader horShader;
 
         int fillAmountId;
+        int fillDirectionId;
         int subMeshMaxYId;
         int subMeshMinYId;
         int subMeshMaxXId;
