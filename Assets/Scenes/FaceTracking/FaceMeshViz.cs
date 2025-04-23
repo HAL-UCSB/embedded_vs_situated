@@ -37,7 +37,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             m_MeshRenderer.enabled = visible;
         }
-        // int[] ComputeMuscleActivation(Vector3[] faceLandmarks, Quaternion faceRotation)
         float[] ComputeMuscleActivation(Vector3[] faceLandmarks, Quaternion faceRotation)
         {
             var baseline = CalibrationLandmarks.baselineLandmarks;
@@ -67,7 +66,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             Assert.IsNotNull(exercise, "Invalid exercise");
             var muscleLandmarks = MuscleTriangles.exerciseLandmarks[(int)exerciseType];
-            // int[] activations = new int[muscleLandmarks.Count];
             float[] activations = new float[muscleLandmarks.Count];
 
             for (int i = 0; i < muscleLandmarks.Count; i++)
@@ -85,20 +83,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 var currDist = (currentPos - baselinePos).magnitude;
                 var maxDist = (exercisePos - baselinePos).magnitude;
                 activations[i] = Mathf.Min(currDist / maxDist, 1.0f);
-                // var activation = currDist / maxDist;
-                // if (activation < 0.4)
-                // {
-                //     activations[i] = 0;
-                // }
-                // else if (activation > 0.7)
-                // {
-                //     activations[i] = 2;
-                // }
-                // else
-                // {
-                //     activations[i] = 1;
-                // }
-
             }
             var actString = "";
             foreach (var act in activations)
@@ -132,6 +116,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             mesh.Clear();
             if (m_Face.vertices.Length > 0 && m_Face.indices.Length > 0)
             {
+
                 mesh.SetVertices(m_Face.vertices);
 
                 var muscles = MuscleTriangles.exerciseMusclesArray[(int)exerciseType];
@@ -158,38 +143,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     mesh.SetUVs(0, m_Face.uvs);
                 }
 
-                if (minmaxYs.Count == 0)
-                {
-                    Debug.Log("Setting minmax X and Y");
-                    var uvs = m_Face.uvs;
-                    for (var i = 0; i < muscles.Count; i++)
-                    {
-                        float[] minmaxX = new float[2];
-                        float[] minmaxY = new float[2];
-                        minmaxX[0] = float.MaxValue;
-                        minmaxX[1] = float.MinValue;
-                        minmaxY[0] = float.MaxValue;
-                        minmaxY[1] = float.MinValue;
-                        var muscle = muscles[i];
-
-                        foreach (var vertexId in muscle)
-                        {
-                            if (vertexId < uvs.Length)
-                            {
-                                var uv = uvs[vertexId];
-                                minmaxY[0] = Mathf.Min(minmaxY[0], uv.y);
-                                minmaxY[1] = Mathf.Max(minmaxY[1], uv.y);
-                                minmaxX[0] = Mathf.Min(minmaxX[0], uv.x);
-                                minmaxX[1] = Mathf.Max(minmaxX[1], uv.x);
-                            }
-                        }
-                        Debug.Log($"{i}, {MuscleTriangles.commonMuscleNames[(int)exerciseType][i]} : MinX {minmaxX[0]}, MaxX {minmaxX[1]}," +
-                               $"MinY {minmaxY[0]}, MaxY {minmaxY[1]}");
-                        minmaxYs.Add(minmaxY);
-                        minmaxXs.Add(minmaxX);
-                    }
-                }
-
                 // set materials based on activation levels
                 var activations = ComputeMuscleActivation(m_Face.vertices.ToArray(),
                                                             m_Face.pose.rotation);
@@ -197,76 +150,32 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 for (int i = 0; i < mesh.subMeshCount; i++)
                 {
                     var activationIdx = 1;
+                    var activationAlpha = 1.0f;
                     if (activations[i] < 0.4)
                     {
                         activationIdx = 0;
+                        activationAlpha = 1.0f - (2 * activations[i]);
                     }
                     else if (activations[i] > 0.7)
                     {
                         activationIdx = 2;
+                        activationAlpha = -1.66f + (activations[i] * 2.66f);
                     }
-                    // else
-                    // {
-                    //     activations[i] = 1;
-                    // }
-                    // materials[i] = activationMaterials[activationIdx[i]];
+                    else
+                    {
+                        activationAlpha = activations[i] > 0.55f ? 3.931f - 5.33f * activations[i] : -1.933f + 5.33f * activations[i];
+                    }
                     materials[i] = activationMaterials[activationIdx];
-                    var muscleName = MuscleTriangles.commonMuscleNames[(int)exerciseType][i];
+                    var matColor = materials[i].color;
+                    matColor.a = activationAlpha;
+                    materials[i].color = matColor;
 
-                    materials[i].SetFloat("_FillDirection", MuscleTriangles.horMuscles.Contains(muscleName) ? 1.0f : 0.0f);
-                    // // materials[i].SetFloat(subMeshMinYId, minmaxYs[i][0]);
-                    // // materials[i].SetFloat(subMeshMaxYId, minmaxYs[i][1]);
-                    // // materials[i].SetFloat(subMeshMinXId, minmaxXs[i][0]);
-                    // // materials[i].SetFloat(subMeshMaxXId, minmaxXs[i][1]);
-                    Debug.Log($"Minmax Ys {minmaxYs.Count}");
-                    materials[i].SetFloat("_SubMeshMinY", minmaxYs[i][0]);
-                    materials[i].SetFloat("_SubMeshMaxY", minmaxYs[i][1]);
-                    materials[i].SetFloat("_SubMeshMinX", minmaxXs[i][0]);
-                    materials[i].SetFloat("_SubMeshMaxX", minmaxXs[i][1]);
-                    materials[i].SetFloat("_FillAmount", activations[i]);
 
                     // Debug.Log($"{muscleName} : MinX {materials[i].GetFloat("_SubMeshMinX")}, MaxX {materials[i].GetFloat("_SubMeshMaxX")}," +
                     //            $"MinY {materials[i].GetFloat("_SubMeshMinY")}, MaxY {materials[i].GetFloat("_SubMeshMaxY")} ; FA {materials[i].GetFloat("_FillAmount")}");
                     // Debug.Log($"{exerciseType} ; {muscleName} ; MinX {minmaxXs[i][0]}; MaxX {minmaxXs[i][1]}; MinY {minmaxYs[i][0]}; MaxY {minmaxYs[i][1]} {activations[i]}");
                 }
                 m_MeshRenderer.materials = materials;
-                // StringBuilder sb = new StringBuilder();
-                // var sharedMaterials = m_MeshRenderer.sharedMaterials;
-                // // Write each vertex with its index and position
-                // for (int i = 0; i < mesh.subMeshCount; i++)
-                // {
-                //     try
-                //     {
-                //         var subMesh = mesh.GetSubMesh(i);
-                //         sb.AppendLine($"sub-mesh {i} : {sharedMaterials[i]}\n");
-                //     }
-                //     catch (System.Exception e)
-                //     {
-                //         Debug.LogError($"Sub mesh {i} not found; {e}");
-                //     }
-                // }
-
-                // StringBuilder sb = new StringBuilder();
-
-                // // Write each vertex with its index and position
-                // for (int i = 0; i < m_Face.vertices.Length; i++)
-                // {
-                //     Vector3 worldPos = m_Face.vertices[i];
-                //     sb.AppendLine($"{i} {worldPos.x:F4} {worldPos.y:F4} {worldPos.z:F4}");
-                // }
-
-                // Get the path for Android
-                // string path = Path.Combine(Application.persistentDataPath, "vertices.txt");
-
-                // try
-                // {
-                //     File.WriteAllText(path, sb.ToString());
-                //     Debug.Log($"Vertex positions written to {path}");
-                // }
-                // catch (System.Exception e)
-                // {
-                //     Debug.LogError($"Error writing vertex file: {e.Message}");
-                // }
             }
 
             var meshFilter = GetComponent<MeshFilter>();
@@ -325,12 +234,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
             exerciseType = exerciseRoutine.currentExercise();
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-            fillAmountId = Shader.PropertyToID("_FillAmount");
-            fillDirectionId = Shader.PropertyToID("_FillDirection");
-            subMeshMinYId = Shader.PropertyToID("_SubmeshUVMinY");
-            subMeshMaxYId = Shader.PropertyToID("_SubmeshUVMaxY");
-            subMeshMinXId = Shader.PropertyToID("_SubmeshUVMinX");
-            subMeshMaxXId = Shader.PropertyToID("_SubmeshUVMaxX");
         }
         void Update()
         {
@@ -344,8 +247,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
             if (exercisePhase == ExercisePhase.Break && landmarkMovingAverageFilter.IsInitialized())
             {
                 landmarkMovingAverageFilter.Reset();
-                minmaxXs.Clear();
-                minmaxYs.Clear();
             }
         }
         void Awake()
@@ -354,8 +255,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
             m_MeshRenderer = GetComponent<MeshRenderer>();
             m_Face = GetComponent<ARFace>();
             landmarkMovingAverageFilter = new LandmarkMovingAverageFilter(3);
-            minmaxXs = new List<float[]>();
-            minmaxYs = new List<float[]>();
         }
 
         void OnEnable()
@@ -379,14 +278,5 @@ namespace UnityEngine.XR.ARFoundation.Samples
         ExerciseRoutine exerciseRoutine;
         ExercisePhase exercisePhase;
         ExerciseType exerciseType;
-        List<float[]> minmaxXs;
-        List<float[]> minmaxYs;
-
-        int fillAmountId;
-        int fillDirectionId;
-        int subMeshMaxYId;
-        int subMeshMinYId;
-        int subMeshMaxXId;
-        int subMeshMinXId;
     }
 }
