@@ -56,7 +56,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
         }
 
-        int[] ComputeMuscleActivation(Vector3[] faceLandmarks, Quaternion faceRotation)
+        float[] ComputeMuscleActivation(Vector3[] faceLandmarks, Quaternion faceRotation)
         {
             var baseline = CalibrationLandmarks.baselineLandmarks;
             // var faceInverseRotation = Quaternion.Inverse(faceRotation);
@@ -66,6 +66,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             //                                                               faceLandmarks[4],
             //                                                           faceInverseRotation);
             // }
+
             var current = landmarkMovingAverageFilter.Process(faceLandmarks);
             Vector3[] exercise = null;
 
@@ -84,7 +85,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             Assert.IsNotNull(exercise, "Invalid exercise");
             var muscleLandmarks = MuscleTriangles.exerciseLandmarks[(int)exerciseType];
-            int[] activations = new int[muscleLandmarks.Count];
+            float[] activations = new float[muscleLandmarks.Count];
 
             for (int i = 0; i < muscleLandmarks.Count; i++)
             {
@@ -100,21 +101,67 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 }
                 var currDist = (currentPos - baselinePos).magnitude;
                 var maxDist = (exercisePos - baselinePos).magnitude;
-                var activation = currDist / maxDist;
-                Debug.Log($"CD : {currDist} MD: {maxDist} A: {activation}");
-                if (activation < 0.4)
-                {
-                    activations[i] = 0;
-                }
-                else if (activation > 0.7)
-                {
-                    activations[i] = 2;
-                }
-                else
-                {
-                    activations[i] = 1;
-                }
+                activations[i] = Mathf.Min(currDist / maxDist, 1.0f);
             }
+            // int[] ComputeMuscleActivation(Vector3[] faceLandmarks, Quaternion faceRotation)
+            // {
+            //     var baseline = CalibrationLandmarks.baselineLandmarks;
+            //     // var faceInverseRotation = Quaternion.Inverse(faceRotation);
+            //     // for (int i = 0; i < faceLandmarks.Length; i++)
+            //     // {
+            //     //     faceLandmarks[i] = CalibrationLandmarks.RotateAroundPivot(faceLandmarks[i],
+            //     //                                                               faceLandmarks[4],
+            //     //                                                           faceInverseRotation);
+            //     // }
+            //     var current = landmarkMovingAverageFilter.Process(faceLandmarks);
+            //     Vector3[] exercise = null;
+
+            //     if (exerciseType == ExerciseType.kSmile)
+            //     {
+            //         exercise = CalibrationLandmarks.smileLandmarks;
+            //     }
+            //     else if (exerciseType == ExerciseType.kEyebrowRaise)
+            //     {
+            //         exercise = CalibrationLandmarks.eyebrowraiseLandmarks;
+            //     }
+            //     else
+            //     {
+            //         exercise = CalibrationLandmarks.reversefrownLandmarks;
+            //     }
+
+            //     Assert.IsNotNull(exercise, "Invalid exercise");
+            //     var muscleLandmarks = MuscleTriangles.exerciseLandmarks[(int)exerciseType];
+            //     int[] activations = new int[muscleLandmarks.Count];
+
+            //     for (int i = 0; i < muscleLandmarks.Count; i++)
+            //     {
+            //         var landmarks = muscleLandmarks[i];
+            //         var baselinePos = Vector3.zero;
+            //         var currentPos = Vector3.zero;
+            //         var exercisePos = Vector3.zero;
+            //         foreach (var landmark in landmarks)
+            //         {
+            //             currentPos += current[landmark];
+            //             baselinePos += baseline[landmark];
+            //             exercisePos += exercise[landmark];
+            //         }
+            //         var currDist = (currentPos - baselinePos).magnitude;
+            //         var maxDist = (exercisePos - baselinePos).magnitude;
+            //         var activation = currDist / maxDist;
+            //         Debug.Log($"CD : {currDist} MD: {maxDist} A: {activation}");
+            //         if (activation < 0.4)
+            //         {
+            //             activations[i] = 0;
+            //         }
+            //         else if (activation > 0.7)
+            //         {
+            //             activations[i] = 2;
+            //         }
+            //         else
+            //         {
+            //             activations[i] = 1;
+            //         }
+            //     }
 
             var actString = "";
             foreach (var act in activations)
@@ -201,19 +248,51 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     mesh.SetTriangles(muscles[i], i + 1);
                 }
 
-                var activationIdx = ComputeMuscleActivation(m_Face.vertices.ToArray(), m_Face.pose.rotation);
+                // var activationIdx = ComputeMuscleActivation(m_Face.vertices.ToArray(), m_Face.pose.rotation);
+                var activations = ComputeMuscleActivation(m_Face.vertices.ToArray(), m_Face.pose.rotation);
                 // set materials based on activation levels
-                for (int i = 0; i < activationIdx.Length; i++)
+                // for (int i = 0; i < activations.Length; i++)
+                // {
+                //     if (exercisePhase == ExercisePhase.Exercise)
+                //     {
+                //         materials[i + 1] = activationMaterials[activationIdx[i]];
+                //     }
+                //     else
+                //     {
+                //         materials[i + 1] = baseMaterial;
+                //     }
+                // }
+                for (int i = 0; i < activations.Length; i++)
                 {
+                    var activationIdx = 1;
+                    float activationAlpha;
+                    if (activations[i] < 0.4)
+                    {
+                        activationIdx = 0;
+                        activationAlpha = 1.0f - (2 * activations[i]);
+                    }
+                    else if (activations[i] > 0.7)
+                    {
+                        activationIdx = 2;
+                        activationAlpha = -1.66f + (activations[i] * 2.66f);
+                    }
+                    else
+                    {
+                        activationAlpha = activations[i] > 0.55f ? 3.931f - 5.33f * activations[i] : -1.933f + 5.33f * activations[i];
+                    }
                     if (exercisePhase == ExercisePhase.Exercise)
                     {
-                        materials[i + 1] = activationMaterials[activationIdx[i]];
+                        var mat = activationMaterials[activationIdx];
+                        mat.SetFloat("_BaseAlpha", activationAlpha);
+                        materials[i + 1] = mat; // activationMaterials[activationIdx];
+                        Debug.Log($"{i} mat has opacity {materials[i + 1].GetFloat("_BaseAlpha")}");
                     }
                     else
                     {
                         materials[i + 1] = baseMaterial;
                     }
                 }
+
 
                 mesh.RecalculateBounds();
                 if (m_Face.normals.Length == m_Face.vertices.Length)
