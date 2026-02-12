@@ -115,6 +115,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
                         break;
 
                     case CalibrationPhase.End:
+                        if (!audioSource.isPlaying)
+                        {
+                            audioSource.Play();
+                        }
                         calibrationPhase = CalibrationPhase.End;
                         // instructionText.text = "Calibration Done!";
                         timerText.text = "Calibration Done!";

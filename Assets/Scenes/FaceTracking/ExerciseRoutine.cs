@@ -100,6 +100,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
                     case ExercisePhase.End:
                         // instructionText.text = "All done!";
+                        if (!audioSource.isPlaying)
+                        {
+                            audioSource.Play();
+                        }
                         timerText.text = "All done!";
                         exercisePhase = ExercisePhase.End;
                         break;

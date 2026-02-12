@@ -107,12 +107,12 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     distances[i] = currDist / maxDist;
                 }
 
-                var actString = "";
+                var actString = $"{currentExercisePhase}, {currentExercise},";
                 foreach (var act in distances)
                 {
                     actString += $"{act},";
                 }
-                LogFile.Log("BasleineAct", actString);
+                LogFile.Log("BaselineAct", actString);
             }
         }
         // Update is called once per frame

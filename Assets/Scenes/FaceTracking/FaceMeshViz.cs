@@ -84,7 +84,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 var maxDist = (exercisePos - baselinePos).magnitude;
                 activations[i] = Mathf.Min(currDist / maxDist, 1.0f);
             }
-            var actString = "";
+            var actString = $"{exercisePhase}, {exerciseType},";
             foreach (var act in activations)
             {
                 actString += $"{act},";

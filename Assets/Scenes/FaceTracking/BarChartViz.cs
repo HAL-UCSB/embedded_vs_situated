@@ -113,7 +113,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     muscleLabels[i].text = muscleNames[i];
                 }
 
-                var actString = "";
+                var actString = $"{currentExercisePhase}, {currentExercise},";
                 foreach (var act in distances)
                 {
                     actString += $"{act},";
