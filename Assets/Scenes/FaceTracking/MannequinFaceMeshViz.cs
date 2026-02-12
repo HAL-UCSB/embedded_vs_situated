@@ -163,7 +163,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             //         }
             //     }
 
-            var actString = "";
+            var actString = $"{exercisePhase}, {exerciseType},";
             foreach (var act in activations)
             {
                 actString += $"{act},";
